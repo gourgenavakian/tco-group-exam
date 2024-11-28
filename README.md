@@ -68,10 +68,23 @@ Run the tests with the following command:
 ```bash
     npm test
 ```
-### Future Development
+## Future Development
 - Add user role management functionality.
 - Improve the chat interface.
 - Integrate with external APIs for additional features.
+
+## Contribution to the Project
+
+1. Fork the repository.
+2. Create a new branch:
+```bash
+   git checkout -b feature/feature-name
+```
+3. Make your changes and commit them:
+```bash
+    git commit -m "Description of your changes"
+```
+4. Push your changes and create a Pull Request.
 
 ## Contact
 - email: gosha.avakian98@gmail.com
