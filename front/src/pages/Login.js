@@ -29,15 +29,14 @@ function Login(props) {
 
         try {
 
-            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/login`, { ...login });
-            console.log('response', response);
-            const token = response.data.token;
-            const user = response.data.user;
+            const { data } = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/login`, { ...login });
+            console.log('response', data);
+            const {token, user } = data;
 
 
             localStorage.setItem('token', token);
             localStorage.setItem('user', JSON.stringify(user));
-            setMessage(response.data);
+            setMessage({ status: "success", message: "Login successful!" });
 
 
             console.log('Token:', token);
@@ -46,8 +45,8 @@ function Login(props) {
             navigate(`/profile/${user.name}/${user._id}`);
 
         } catch (err) {
-            console.error('Sign in error:', err);
-            setMessage(err.response);
+            const errorMessage = err.response?.data?.message || "An error occurred";
+            setMessage({ status: "error", message: errorMessage });
         }
     };
 
@@ -68,15 +67,23 @@ function Login(props) {
             <form onSubmit={onSubmit}>
 
                 <label> Email
-                    <input type="email" name="email" onChange={onChange} value={login.email} required />
+                    <input type="email"
+                           name="email"
+                           onChange={onChange}
+                           value={login.email}
+                           required />
                 </label>
                 <label>Password
-                    <input type="password" name="password" onChange={onChange} value={login.password} required />
+                    <input type="password"
+                           name="password"
+                           onChange={onChange}
+                           value={login.password}
+                           required />
                 </label>
                 <button type="submit">Login</button>
                 <p>Don't have an account? <Link to="/register">Register here</Link>.</p>
                 {message && (
-                    message.status ? <p style={ message.status === 400 ? {color: 'red'} : {color: 'green'}}>{message.data.message}</p> : null
+                    message.status ? <p style={{color: message.status === "error" ? "red" : "green"}}>{message.message}</p> : null
                 )}
             </form>
         </div>
