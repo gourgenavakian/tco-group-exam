@@ -5,8 +5,7 @@ import {faArrowAltCircleDown, faBell, faGear, faSearch} from "@fortawesome/free-
 function Header(props) {
     return (
 
-        <div className="header"
-             style={{display: 'flex', flexDirection: 'column', position: 'relative', alignSelf: 'flex-end'}}>
+        <div className="header">
             <div className="header-left">
                 <div className="menu-icon dw dw-menu"></div>
                 <div className="search-toggle-icon dw dw-search2" data-toggle="header_search"></div>
