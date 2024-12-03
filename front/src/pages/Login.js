@@ -1,91 +1,109 @@
-import React, {useEffect, useState} from 'react';
-import {Link, useLocation, useNavigate} from 'react-router-dom';
-import axios from "axios";
+import React from 'react';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faLock, faUser} from "@fortawesome/free-solid-svg-icons";
 
 function Login(props) {
-
-    const navigate = useNavigate();
-    const location = useLocation();
-    const [login, setLogin] = useState({
-        email: "",
-        password: "",
-    });
-    const [message, setMessage] = useState(location.state || null);
-    console.log(message);
-
-
-    const onChange = e => {
-
-        const { name, value } = e.target;
-        setLogin((prevLogin) => ({
-            ...prevLogin,
-            [name]: value
-        }));
-
-    };
-
-    const onSubmit = async e => {
-        e.preventDefault();
-
-        try {
-
-            const { data } = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/login`, { ...login });
-            console.log('response', data);
-            const {token, user } = data;
-
-
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(user));
-            setMessage({ status: "success", message: "Login successful!" });
-
-
-            console.log('Token:', token);
-            console.log('User:', user);
-
-            navigate(`/profile/${user.name}/${user._id}`);
-
-        } catch (err) {
-            const errorMessage = err.response?.data?.message || "An error occurred";
-            setMessage({ status: "error", message: errorMessage });
-        }
-    };
-
-    useEffect(() => {
-        if (message) {
-            const timer = setTimeout(() => {
-                setMessage(null);
-            }, 3000);
-            return () => clearTimeout(timer);
-        }
-    },[message])
-
     return (
         <div>
-            <h1>
-                Login
-            </h1>
-            <form onSubmit={onSubmit}>
+            <div className="login-page">
+                <div className="login-header box-shadow">
+                    <div className="container-fluid d-flex justify-content-between align-items-center">
+                        <div className="brand-logo">
+                            <a href="login.html">
+                                <img src="/images/deskapp-logo.svg" alt=""/>
+                            </a>
+                        </div>
+                        <div className="login-menu">
+                            <ul>
+                                <li><a href="register.html">Register</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div className="login-wrap d-flex align-items-center flex-wrap justify-content-center">
+                    <div className="container">
+                        <div className="row align-items-center">
+                            <div className="col-md-6 col-lg-7">
+                                <img src="/images/login-page-img.png" alt=""/>
+                            </div>
+                            <div className="col-md-6 col-lg-5">
+                                <div className="login-box bg-white box-shadow border-radius-10">
+                                    <div className="login-title">
+                                        <h2 className="text-center text-primary">Login To DeskApp</h2>
+                                    </div>
+                                    <form>
+                                        <div className="select-role">
+                                            <div className="btn-group btn-group-toggle" data-toggle="buttons">
+                                                <label className="btn">
+                                                    <input type="radio" name="options" id="admin"/>
+                                                    <div className="icon"><img src="/images/briefcase.svg"
+                                                                               className="svg" alt=""/></div>
+                                                    <span>I'm</span>
+                                                    Manager
+                                                </label>
+                                                <label className="btn">
+                                                    <input type="radio" name="options" id="user"/>
+                                                    <div className="icon"><img src="/images/person.svg" className="svg"
+                                                                               alt=""/></div>
+                                                    <span>I'm</span>
+                                                    Employee
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div className="input-group custom">
+                                            <input type="text" className="form-control form-control-lg"
+                                                   placeholder="Username"/>
+                                            <div className="input-group-append custom">
+                                        <span className="input-group-text"><FontAwesomeIcon icon={faUser}
+                                                                                            className="icon-copy dw dw-user1"></FontAwesomeIcon></span>
+                                            </div>
+                                        </div>
+                                        <div className="input-group custom">
+                                            <input type="password" className="form-control form-control-lg"
+                                                   placeholder="**********"/>
+                                            <div className="input-group-append custom">
+                                                <span className="input-group-text"><FontAwesomeIcon icon={faLock}
+                                                                                                    className="dw dw-padlock1"></FontAwesomeIcon></span>
+                                            </div>
+                                        </div>
+                                        <div className="row pb-30">
+                                            <div className="col-6">
+                                                <div className="custom-control custom-checkbox">
+                                                    <input type="checkbox" className="custom-control-input"
+                                                           id="customCheck1"/>
+                                                    <label className="custom-control-label"
+                                                           htmlFor="customCheck1">Remember</label>
+                                                </div>
+                                            </div>
+                                            <div className="col-6">
+                                                <div className="forgot-password"><a href="forgot-password.html">Forgot
+                                                    Password</a></div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-sm-12">
+                                                <div className="input-group mb-0">
+                                                    <a className="btn btn-primary btn-lg btn-block" href="index.html">Sign
+                                                        In</a>
+                                                </div>
+                                                <div className="font-16 weight-600 pt-10 pb-10 text-center"
+                                                     data-color="#707373"
+                                                     style={{color: 'rgb(112, 115, 115)'}}>OR
+                                                </div>
+                                                <div className="input-group mb-0">
+                                                    <a className="btn btn-outline-primary btn-lg btn-block"
+                                                       href="register.html">Register To Create Account</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <label> Email
-                    <input type="email"
-                           name="email"
-                           onChange={onChange}
-                           value={login.email}
-                           required />
-                </label>
-                <label>Password
-                    <input type="password"
-                           name="password"
-                           onChange={onChange}
-                           value={login.password}
-                           required />
-                </label>
-                <button type="submit">Login</button>
-                <p>Don't have an account? <Link to="/register">Register here</Link>.</p>
-                {message && (
-                    message.status ? <p style={{color: message.status === "error" ? "red" : "green"}}>{message.message}</p> : null
-                )}
-            </form>
+            </div>
         </div>
     );
 }
