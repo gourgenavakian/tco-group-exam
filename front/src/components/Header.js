@@ -1,6 +1,7 @@
 import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowAltCircleDown, faBell, faGear, faSearch} from "@fortawesome/free-solid-svg-icons";
+import {Link} from "react-router-dom";
 
 function Header(props) {
     return (
@@ -15,10 +16,10 @@ function Header(props) {
                             <FontAwesomeIcon className='dw dw-search2 search-icon' icon={faSearch}/>
                             <input type="text" className="form-control search-input" placeholder="Search Here"/>
                             <div className="dropdown">
-                                <a className="dropdown-toggle no-arrow" href="#" role="button"
+                                <Link className="dropdown-toggle no-arrow" to="#" role="button"
                                    data-toggle="dropdown">
                                     <FontAwesomeIcon className='ion-arrow-down-c' icon={faArrowAltCircleDown}/>
-                                </a>
+                                </Link>
                                 <div className="dropdown-menu dropdown-menu-right">
                                     <div className="form-group row">
                                         <label className="col-sm-12 col-md-2 col-form-label">From</label>
@@ -50,71 +51,72 @@ function Header(props) {
                     </form>
                 </div>
             </div>
+
             <div className="header-right">
                 <div className="dashboard-setting user-notification">
                     <div className="dropdown">
-                        <a className="dropdown-toggle no-arrow" href="javascript:;" data-toggle="right-sidebar">
+                        <Link className="dropdown-toggle no-arrow" to="javascript:;" data-toggle="right-sidebar">
                             <FontAwesomeIcon icon={faGear} className='dw dw-settings2'/>
-                        </a>
+                        </Link>
                     </div>
                 </div>
                 <div className="user-notification">
                     <div className="dropdown">
-                        <a className="dropdown-toggle no-arrow" href="#" role="button" data-toggle="dropdown">
+                        <Link className="dropdown-toggle no-arrow" to="#" role="button" data-toggle="dropdown">
 
                             <FontAwesomeIcon className="icon-copy dw dw-notification" icon={faBell}/>
                             <span className="badge notification-active"></span>
-                        </a>
+                        </Link>
                         <div className="dropdown-menu dropdown-menu-right">
                             <div className="notification-list mx-h-350 customscroll">
                                 <ul>
                                     <li>
-                                        <a href="#">
+                                        <Link to="#">
                                             <img src="/images/img.jpg" alt=""/>
                                             <h3>John Doe</h3>
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                                                 sed...</p>
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <Link to="#">
                                             <img src="/images/photo1.jpg" alt=""/>
                                             <h3>Lea R. Frith</h3>
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                                                 sed...</p>
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <Link to="#">
                                             <img src="/images/photo2.jpg" alt=""/>
                                             <h3>Erik L. Richards</h3>
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                                                 sed...</p>
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <Link to="#">
                                             <img src="/images/photo3.jpg" alt=""/>
                                             <h3>John Doe</h3>
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                                                 sed...</p>
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <Link to="#">
                                             <img src="/images/photo4.jpg" alt=""/>
                                             <h3>Renee I. Hansen</h3>
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                                                 sed...</p>
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <Link to="#">
                                             <img src="/images/img.jpg" alt=""/>
                                             <h3>Vicki M. Coleman</h3>
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                                                 sed...</p>
-                                        </a>
+                                        </Link>
                                     </li>
                                 </ul>
                             </div>
@@ -123,27 +125,24 @@ function Header(props) {
                 </div>
                 <div className="user-info-dropdown">
                     <div className="dropdown">
-                        <a className="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                        <Link className="dropdown-toggle" to="#" role="button" data-toggle="dropdown">
 						<span className="user-icon">
 							<img src="/images/photo1.jpg" alt=""/>
 						</span>
                             <span className="user-name">Ross C. Lopez</span>
-                        </a>
+                        </Link>
                         <div className="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                            <a className="dropdown-item" href="profile.html"><i
-                                className="dw dw-user1"></i> Profile</a>
-                            <a className="dropdown-item" href="profile.html"><i
-                                className="dw dw-settings2"></i> Setting</a>
-                            <a className="dropdown-item" href="faq.html"><i className="dw dw-help"></i> Help</a>
-                            <a className="dropdown-item" href="login.html"><i className="dw dw-logout"></i> Log
-                                Out</a>
+                            <Link className="dropdown-item" to="profile.html"><i
+                                className="dw dw-user1"></i> Profile</Link>
+                            <Link className="dropdown-item" to="profile.html"><i
+                                className="dw dw-settings2"></i> Setting</Link>
+                            <Link className="dropdown-item" to="faq.html"><i className="dw dw-help"></i> Help</Link>
+                            <Link className="dropdown-item" to="login.html"><i className="dw dw-logout"></i> Log
+                                Out</Link>
                         </div>
                     </div>
                 </div>
-                <div className="github-link">
-                    <a href="https://github.com/dropways/deskapp" target="_blank"><img src="/images/github.svg"
-                                                                                       alt=""/></a>
-                </div>
+                
             </div>
         </div>
     );
