@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat";
 import AddUser from "./pages/AddUser";
+import Profile from "./pages/Profile";
 
 function App(props) {
     return (
@@ -15,6 +16,7 @@ function App(props) {
                 <Route path='/login' element={<Login />} />
                 <Route path='/chat' element={<Chat />} />
                 <Route path='/adduser' element={<AddUser />} />
+                <Route path='/profile' element={<Profile />} />
             </Routes>
         </BrowserRouter>
     );
