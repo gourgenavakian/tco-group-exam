@@ -9,7 +9,7 @@ import Wrapper from "../components/Wrapper";
 
 function PageAddUser() {
     return (
-        <div >
+
             <Wrapper>
                 <div className="main-container">
 
@@ -23,8 +23,8 @@ function PageAddUser() {
                                         </div>
                                         <nav aria-label="breadcrumb" role="navigation">
                                             <ol className="breadcrumb">
-                                                <li className="breadcrumb-item"><Link to="/dash">Home</Link></li>
-                                                <li className="breadcrumb-item active" aria-current="page"><Link to="/add-user">Add User</Link></li>
+                                                <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+                                                <li className="breadcrumb-item active" aria-current="page">Add User</li>
                                             </ol>
                                         </nav>
                                     </div>
@@ -102,7 +102,7 @@ function PageAddUser() {
                     </div>
                 </div>
             </Wrapper>
-        </div>
+
     );
 }
 

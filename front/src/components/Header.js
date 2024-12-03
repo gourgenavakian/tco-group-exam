@@ -55,7 +55,7 @@ function Header(props) {
             <div className="header-right">
                 <div className="dashboard-setting user-notification">
                     <div className="dropdown">
-                        <Link className="dropdown-toggle no-arrow" to="javascript:;" data-toggle="right-sidebar">
+                        <Link className="dropdown-toggle no-arrow" to="#" data-toggle="right-sidebar">
                             <FontAwesomeIcon icon={faGear} className='dw dw-settings2'/>
                         </Link>
                     </div>

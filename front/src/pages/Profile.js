@@ -39,7 +39,7 @@ function Profile(props) {
                                     </div>
                                     <nav aria-label="breadcrumb" role="navigation">
                                         <ol className="breadcrumb">
-                                            <li className="breadcrumb-item"><Link to="index.html">Home</Link></li>
+                                            <li className="breadcrumb-item"><Link to="/">Home</Link></li>
                                             <li className="breadcrumb-item active" aria-current="page">Profile</li>
                                         </ol>
                                     </nav>
@@ -52,7 +52,6 @@ function Profile(props) {
                                     <div className="profile-photo">
                                         <Link to="modal" data-toggle="modal" data-target="#modal"
                                            className="edit-avatar">
-                                            {/*<i className="fa fa-pencil"></i>*/}
                                             <FontAwesomeIcon icon={faPencil}  />
                                         </Link>
                                         <img src="/images/photo1.jpg" alt="" className="avatar-photo"/>
@@ -112,7 +111,6 @@ function Profile(props) {
                                                        data-color="#ffffff"
                                                        style={{color: 'rgb(255, 255, 255), backgroundColor: rgb(59, 89, 152)'}}
                                                     >
-                                                        {/*<i className="fa fa-facebook"></i>*/}
                                                         <FontAwesomeIcon icon={item} size='lg'/>
                                                     </Link>
                                                 </li>

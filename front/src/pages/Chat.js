@@ -4,7 +4,7 @@ import MainContainerChat from "../components/MainContainerChat";
 
 function Chat(props) {
     return (
-        <div>
+
             <Wrapper>
                 <div className="right-sidebar">
                     <div className="sidebar-title">
@@ -105,7 +105,7 @@ function Chat(props) {
                     <MainContainerChat/>
                 </div>
             </Wrapper>
-        </div>
+
 
     );
 }

@@ -19,8 +19,7 @@ function MainContainerChat(props) {
                                     <ol className="breadcrumb">
                                         <li className="breadcrumb-item"><Link to="/" data-discover="true">Home</Link>
                                         </li>
-                                        <li className="breadcrumb-item active" aria-current="page"><Link to="/chat"
-                                                                                                      data-discover="true">Chat</Link>
+                                        <li className="breadcrumb-item active" aria-current="page">Chat
                                         </li>
                                     </ol>
                                 </nav>
