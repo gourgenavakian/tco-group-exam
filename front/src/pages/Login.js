@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import md5 from "md5";
 
 function Login() {
     const [info, setInfo] = useState({
@@ -20,9 +19,16 @@ function Login() {
         }));
     };
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!info.username || !info.password) {
+            alert("Please enter a Username or Password");
+        }
+
         console.log(info);
+
     }
 
     return (
