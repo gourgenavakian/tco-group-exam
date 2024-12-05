@@ -17,9 +17,7 @@ function Reg(props) {
         state: '',
         creditCardType: '',
         cvc: '',
-        expirationDate: '',
-
-
+        expirationDate: ''
     });
 
     const handleNext = () => {
