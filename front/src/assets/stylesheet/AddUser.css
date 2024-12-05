@@ -1,0 +1,25 @@
+.avatar-upload {
+    display: inline-block;
+}
+
+.btn-upload-avatar {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s;
+}
+
+.btn-upload-avatar:hover {
+    background-color: #f1f1f1;
+}
+
+.form-control {
+    border-radius: 4px;
+}
+
+.form-group label {
+    font-weight: 500;
+}
