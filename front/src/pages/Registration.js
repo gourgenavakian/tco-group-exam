@@ -148,7 +148,7 @@ function Registration(props) {
         return (
             <>
                 <div className="content clearfix">
-
+                    {/*<!-- Step 1 -->*/}
                     <section id="steps-uid-0-p-0" role="tabpanel" aria-labelledby="steps-uid-0-h-0"
                              className="body current" aria-hidden="false"
                              style={step === 1 ? {display: 'block'} : {display: 'none'}}>
