@@ -3,7 +3,7 @@ import Select from 'react-select';
 import {Link} from 'react-router-dom';
 import { Link as ScrollLink } from 'react-scroll';
 
-function Reg(props) {
+function Registration(props) {
 
     const [step, setStep] = useState(0);
 
@@ -428,4 +428,4 @@ function Reg(props) {
     );
 }
 
-export default Reg;
+export default Registration;
