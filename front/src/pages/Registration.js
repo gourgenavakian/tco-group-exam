@@ -2,11 +2,14 @@ import React, {useState} from 'react';
 import Select from 'react-select';
 import {Link} from 'react-router-dom';
 import { Link as ScrollLink } from 'react-scroll';
+import axios from 'axios';
+import RegisterSuccess from "../components/RegistrationSuccess";
 
 function Registration(props) {
 
     const [step, setStep] = useState(1);
     const [agree, setAgree] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const [info, setInfo] = useState({
         email: '',
@@ -62,10 +65,24 @@ function Registration(props) {
     }
 
 
-    const handleSubmit = e => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(info)
-    }
+
+        try{
+            const req = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/registration`, {...info});
+
+            console.log('request', req);
+
+            if (req.status === 200) {
+                setShowSuccess(true);
+            }
+
+        }catch(err){
+            console.log(err);
+        }
+
+    };
 
 
     const renderSteps = () => {
@@ -565,25 +582,8 @@ function Registration(props) {
                     </div>
                 </div>
             </div>
-            {/*<!-- success Popup html Start -->*/}
-            {/*<button type="button" id="success-modal-btn" hidden="" data-toggle="modal" data-target="#success-modal"*/}
-            {/*        data-backdrop="static">Launch modal*/}
-            {/*</button>*/}
-            <div className="modal fade" id="success-modal" tabIndex="-1" role="dialog"
-                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered max-width-400" role="document">
-                    <div className="modal-content">
-                        <div className="modal-body text-center font-18">
-                            <h3 className="mb-20">Form Submitted!</h3>
-                            <div className="mb-30 text-center"><img src="/images/success.png" alt=''/></div>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        </div>
-                        <div className="modal-footer justify-content-center">
-                            <Link to="login.html" className="btn btn-primary">Done</Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+            {showSuccess && (<RegisterSuccess/>)}
         </div>
     );
 }

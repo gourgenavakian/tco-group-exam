@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const app = express();
-const {Server} = require("socket.io");
 const http = require("http");
 const server = http.createServer(app);
 const start = require('./config/connect');

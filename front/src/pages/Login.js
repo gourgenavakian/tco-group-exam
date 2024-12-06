@@ -1,35 +1,54 @@
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock, faUser } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import React, {useState} from 'react';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faLock, faUser} from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import {useNavigate, useLocation, Link} from "react-router-dom";
 
-function Login() {
-    const [info, setInfo] = useState({
-        role: "",
+function Login(props) {
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [login, setLogin] = useState({
         username: "",
-        password: '',
+        password: "",
+        role: "",
         remember: false,
     });
 
-    const onChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setInfo((prevInfo) => ({
-            ...prevInfo,
-            [name]: type === "checkbox" ? checked : value,
+    const onChange = e => {
+
+        const { name, value } = e.target;
+        setLogin((prevLogin) => ({
+            ...prevLogin,
+            [name]: value
         }));
+
     };
 
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async e => {
         e.preventDefault();
 
-        if (!info.username || !info.password) {
-            alert("Please enter a Username or Password");
+        try {
+
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/login`, { ...login });
+            console.log('response', response);
+            const token = response.data.token;
+            const user = response.data.user;
+
+
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(user));
+
+            console.log('Token:', token);
+            console.log('User:', user);
+
+            navigate(`/home/${user.username}/${user._id}`);
+
+        } catch (err) {
+            console.error('Sign in error:', err);
+            // setMessage(err.response);
         }
-
-        console.log(info);
-
-    }
+    };
 
     return (
         <div>
@@ -38,7 +57,7 @@ function Login() {
                     <div className="container-fluid d-flex justify-content-between align-items-center">
                         <div className="brand-logo">
                             <Link to="/login">
-                                <img src="/images/deskapp-logo.svg" alt="Logo" />
+                                <img src="/images/deskapp-logo.svg" alt="Logo"/>
                             </Link>
                         </div>
                         <div className="login-menu">
@@ -54,7 +73,7 @@ function Login() {
                     <div className="container">
                         <div className="row align-items-center">
                             <div className="col-md-6 col-lg-7">
-                                <img src="/images/login-page-img.png" alt="Login visual" />
+                                <img src="/images/login-page-img.png" alt="Login visual"/>
                             </div>
                             <div className="col-md-6 col-lg-5">
                                 <div className="login-box bg-white box-shadow border-radius-10">
@@ -64,29 +83,29 @@ function Login() {
                                     <form>
                                         <div className="select-role">
                                             <div className="btn-group btn-group-toggle">
-                                                <label className={`btn ${info.role === "manager" ? "active" : ""}`}>
+                                                <label className={`btn ${login.role === "manager" ? "active" : ""}`}>
                                                     <input
                                                         type="radio"
                                                         name="role"
                                                         value="manager"
                                                         onChange={onChange}
-                                                        checked={info.role === "manager"}
+                                                        checked={login.role === "manager"}
                                                     />
                                                     <div className="icon">
-                                                        <img src="/images/briefcase.svg" alt="Manager icon" />
+                                                        <img src="/images/briefcase.svg" alt="Manager icon"/>
                                                     </div>
                                                     <span>I'm</span> Manager
                                                 </label>
-                                                <label className={`btn ${info.role === "employee" ? "active" : ""}`}>
+                                                <label className={`btn ${login.role === "employee" ? "active" : ""}`}>
                                                     <input
                                                         type="radio"
                                                         name="role"
                                                         value="employee"
                                                         onChange={onChange}
-                                                        checked={info.role === "employee"}
+                                                        checked={login.role === "employee"}
                                                     />
                                                     <div className="icon">
-                                                        <img src="/images/person.svg" alt="Employee icon" />
+                                                        <img src="/images/person.svg" alt="Employee icon"/>
                                                     </div>
                                                     <span>I'm</span> Employee
                                                 </label>
@@ -99,12 +118,12 @@ function Login() {
                                                 placeholder="Username"
                                                 name="username"
                                                 onChange={onChange}
-                                                value={info.username}
+                                                value={login.username}
                                             />
                                             <div className="input-group-append custom">
-                        <span className="input-group-text">
-                          <FontAwesomeIcon icon={faUser} />
-                        </span>
+                <span className="input-group-text">
+                  <FontAwesomeIcon icon={faUser}/>
+                </span>
                                             </div>
                                         </div>
                                         <div className="input-group custom">
@@ -114,12 +133,12 @@ function Login() {
                                                 className="form-control form-control-lg"
                                                 placeholder="**********"
                                                 onChange={onChange}
-                                                value={info.password}
+                                                value={login.password}
                                             />
                                             <div className="input-group-append custom">
-                        <span className="input-group-text">
-                          <FontAwesomeIcon icon={faLock} />
-                        </span>
+                <span className="input-group-text">
+                  <FontAwesomeIcon icon={faLock}/>
+                </span>
                                             </div>
                                         </div>
                                         <div className="row pb-30">
@@ -131,7 +150,7 @@ function Login() {
                                                         id="customCheck1"
                                                         name="remember"
                                                         onChange={onChange}
-                                                        checked={info.remember}
+                                                        checked={login.remember}
                                                     />
                                                     <label className="custom-control-label" htmlFor="customCheck1">
                                                         Remember
@@ -147,18 +166,20 @@ function Login() {
                                         <div className="row">
                                             <div className="col-sm-12">
                                                 <div className="input-group mb-0">
-                                                    <Link className="btn btn-primary btn-lg btn-block" to="/dashboard" onClick={handleSubmit}>
+                                                    <Link className="btn btn-primary btn-lg btn-block" to="/dashboard"
+                                                          onClick={handleSubmit}>
                                                         Sign In
                                                     </Link>
                                                 </div>
                                                 <div
                                                     className="font-16 weight-600 pt-10 pb-10 text-center"
-                                                    style={{ color: "#707373" }}
+                                                    style={{color: "#707373"}}
                                                 >
                                                     OR
                                                 </div>
                                                 <div className="input-group mb-0">
-                                                    <Link className="btn btn-outline-primary btn-lg btn-block" to="/registration">
+                                                    <Link className="btn btn-outline-primary btn-lg btn-block"
+                                                          to="/registration">
                                                         Register To Create Account
                                                     </Link>
                                                 </div>

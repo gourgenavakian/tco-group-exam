@@ -11,11 +11,11 @@ function App(props) {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<Dashboard />} />
+                <Route path='/home/:username/:id' element={<Dashboard />} />
                 <Route path='/registration' element={<Registration />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/chat' element={<Chat />} />
-                <Route path='/adduser' element={<AddUser />} />
+                <Route path='/add-user' element={<AddUser />} />
                 <Route path='/profile' element={<Profile />} />
             </Routes>
         </BrowserRouter>
