@@ -2,12 +2,12 @@ import React, {useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLock, faUser} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import {useNavigate, useLocation, Link} from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
 
 function Login(props) {
 
     const navigate = useNavigate();
-    const location = useLocation();
+
     const [login, setLogin] = useState({
         username: "",
         password: "",
@@ -31,16 +31,12 @@ function Login(props) {
         try {
 
             const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/login`, { ...login });
-            console.log('response', response);
+
             const token = response.data.token;
             const user = response.data.user;
 
 
             localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(user));
-
-            console.log('Token:', token);
-            console.log('User:', user);
 
             navigate(`/home/${user.username}/${user._id}`);
 

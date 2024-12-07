@@ -4,6 +4,8 @@ const {authorizationUsers} = require('../middlewares/authorization');
 const { registerUsers, loginUsers, getProfile } = require('../controllers/UsersController');
 
 /* GET users listing. */
+router.get('/profile', authorizationUsers, getProfile);
+
 router.post('/registration', registerUsers);
 router.post('/login', loginUsers);
 
