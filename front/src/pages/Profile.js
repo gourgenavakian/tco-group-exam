@@ -9,7 +9,7 @@ import SettingTab from "../components/SettingTab";
 import {Link} from "react-router-dom";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import {useDispatch, useSelector} from "react-redux";
-import {fetchDataRequest} from "../redux/actions/profileDataActions";
+import {fetchDataRequest} from "../store/actions/profileDataActions";
 
 
 function Profile(props) {
