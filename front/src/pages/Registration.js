@@ -19,7 +19,7 @@ function Registration(props) {
         fullName: '',
         gender: '',
         city: '',
-        state: '',
+        country: '',
         card: {
             type: '',
             cvc: '',
@@ -133,7 +133,7 @@ function Registration(props) {
                         info.password === info.confirmPassword
                     );
                 case 2:
-                    return info.gender && info.city && info.state;
+                    return info.gender;
                 case 3:
                     return (
                         info.card.type &&
@@ -154,28 +154,28 @@ function Registration(props) {
                              style={step === 1 ? {display: 'block'} : {display: 'none'}}>
                         <div className="form-wrap max-width-600 mx-auto">
                             <div className="form-group row">
-                                <label className="col-sm-4 col-form-label">Email Address*</label>
+                                <label className="col-sm-4 col-form-label" style={{color: 'red'}}>Email Address*</label>
                                 <div className="col-sm-8">
                                     <input type="email" name='email' className="form-control" onChange={onChange}
                                            value={info.email} required/>
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-4 col-form-label">Username*</label>
+                                <label className="col-sm-4 col-form-label" style={{color: 'red'}}>Username*</label>
                                 <div className="col-sm-8">
                                     <input type="text" name='username' className="form-control" onChange={onChange}
                                            value={info.username} required/>
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-4 col-form-label">Password*</label>
+                                <label className="col-sm-4 col-form-label" style={{color: 'red'}}>Password*</label>
                                 <div className="col-sm-8">
                                     <input type="password" name='password' className="form-control"
                                            onChange={onChange} value={info.password} required/>
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-4 col-form-label">Confirm Password*</label>
+                                <label className="col-sm-4 col-form-label" style={{color: 'red'}}>Confirm Password*</label>
                                 <div className="col-sm-8">
                                     <input type="password"
                                            name='confirmPassword'
@@ -194,14 +194,14 @@ function Registration(props) {
                              style={step === 2 ? {display: 'block'} : {display: 'none'}}>
                         <div className="form-wrap max-width-600 mx-auto">
                             <div className="form-group row">
-                                <label className="col-sm-4 col-form-label">Full Name*</label>
+                                <label className="col-sm-4 col-form-label" style={{color: 'red'}}>Full Name*</label>
                                 <div className="col-sm-8">
                                     <input type="text" name='fullName' className="form-control" onChange={onChange}
                                            value={info.fullName} required/>
                                 </div>
                             </div>
                             <div className="form-group row align-items-center">
-                                <label className="col-sm-4 col-form-label">Gender*</label>
+                                <label className="col-sm-4 col-form-label" style={{color: 'red'}}>Gender*</label>
                                 <div className="col-sm-8">
                                     <div
                                         className="custom-control custom-radio custom-control-inline pb-0">
@@ -249,10 +249,10 @@ function Registration(props) {
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-4 col-form-label">State</label>
+                                <label className="col-sm-4 col-form-label">Country</label>
                                 <div className="col-sm-8">
-                                    <input type="text" name='state' className="form-control" onChange={onChange}
-                                           value={info.state} required/>
+                                    <input type="text" name='country' className="form-control" onChange={onChange}
+                                           value={info.country} required/>
                                 </div>
                             </div>
                         </div>
@@ -265,7 +265,7 @@ function Registration(props) {
                              style={step === 3 ? {display: 'block'} : {display: 'none'}}>
                         <div className="form-wrap max-width-600 mx-auto">
                             <div className="form-group row">
-                                <label className="col-sm-4 col-form-label">Credit Card Type</label>
+                                <label className="col-sm-4 col-form-label" style={{color: 'red'}}>Credit Card Type*</label>
                                 <div className="col-sm-8">
                                     <div className="dropdown bootstrap-select form-control">
 
@@ -292,20 +292,20 @@ function Registration(props) {
                                 </div>
                             </div>
                             <div className="form-group row align-items-center">
-                                <label className="col-sm-4 col-form-label">Credit Card
-                                    Number</label>
+                                <label className="col-sm-4 col-form-label" style={{color: 'red'}}>Credit Card
+                                    Number*</label>
                                 <div className="col-sm-8">
                                     <input type="text" name='creditCardNumber' className="form-control" onChange={onChange}/>
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-4 col-form-label">CVC</label>
+                                <label className="col-sm-4 col-form-label" style={{color: 'red'}}>CVC</label>
                                 <div className="col-sm-3">
                                     <input type="text" name='cvc' className="form-control" onChange={onChange} required/>
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-4 col-form-label">Expiration Date</label>
+                                <label className="col-sm-4 col-form-label" style={{color: 'red'}}>Expiration Date*</label>
                                 <div className="col-sm-8">
                                     <div className="row">
                                         <div className="col-6">
@@ -407,7 +407,7 @@ function Registration(props) {
                                 <li>
                                     <div className="row">
                                         <div className="col-sm-4 weight-600">Location</div>
-                                        <div className="col-sm-8">{info.state + ', ' + info.city}</div>
+                                        <div className="col-sm-8">{info.country + ', ' + info.city}</div>
                                     </div>
                                 </li>
                             </ul>
@@ -468,13 +468,13 @@ function Registration(props) {
             <div className="login-header box-shadow">
                 <div className="container-fluid d-flex justify-content-between align-items-center">
                     <div className="brand-logo">
-                        <Link to="login.html">
+                        <Link to="/login">
                             <img src="/images/deskapp-logo.svg" alt=""/>
                         </Link>
                     </div>
                     <div className="login-menu">
                         <ul>
-                            <li><Link to="login.html">Login</Link></li>
+                            <li><Link to="/login">Login</Link></li>
                         </ul>
                     </div>
                 </div>

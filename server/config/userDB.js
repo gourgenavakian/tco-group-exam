@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
-    state:{
+    country:{
         type: String,
         required: false,
     },
@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema({
     avatar:{
         type: String,
         required: false,
+    },
+    options:{
+        type: Object,
+        required: true,
     }
 });
 

@@ -146,17 +146,17 @@ function Header(props) {
                               data-toggle="dropdown"
                               onClick={() => setShowDropDownMenu(!showDropDownMenu)}>
 						<span className="user-icon">
-							<img src="/images/photo1.jpg" alt=""/>
+							<img src={data?.avatar || '/images/avatar.avif'} alt=""/>
 						</span>
                             <span className="user-name">{data.fullName}</span>
                         </Link>
                         { showDropDownMenu && <div className="dropdown-menu dropdown-menu-right dropdown-menu-icon-list" style={{display: 'block'}}>
-                            <Link className="dropdown-item" to="profile.html"><i
+                            <Link className="dropdown-item" to="/profile"><i
                                 className="dw dw-user1"></i> Profile</Link>
-                            <Link className="dropdown-item" to="profile.html"><i
+                            <Link className="dropdown-item" to="/profile"><i
                                 className="dw dw-settings2"></i> Setting</Link>
-                            <Link className="dropdown-item" to="faq.html"><i className="dw dw-help"></i> Help</Link>
-                            <Link className="dropdown-item" to="login.html"><i className="dw dw-logout"></i> Log
+                            <Link className="dropdown-item" to="/faq"><i className="dw dw-help"></i> Help</Link>
+                            <Link className="dropdown-item" to="/login" onClick={() => localStorage.removeItem('token')}> Log
                                 Out</Link>
                         </div>}
                     </div>

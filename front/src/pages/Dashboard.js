@@ -60,9 +60,9 @@ function Dashboard(props) {
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 version="1.1"
                                                 xmlnsXlink="http://www.w3.org/1999/xlink"
-                                                xmlnsSvgjs="http://svgjs.com/svgjs"
+                                                xmlnssvgjs="http://svgjs.com/svgjs"
                                                 className="apexcharts-svg"
-                                                xmlnsData="ApexChartsNS"
+                                                xmlnsdata="ApexChartsNS"
                                                 transform="translate(0, 0)"
                                                 style={{background: "transparent"}}
                                             >
@@ -185,9 +185,9 @@ function Dashboard(props) {
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 version="1.1"
                                                 xmlnsXlink="http://www.w3.org/1999/xlink"
-                                                xmlnsSvgjs="http://svgjs.com/svgjs"
+                                                xmlnssvgjs="http://svgjs.com/svgjs"
                                                 className="apexcharts-svg"
-                                                xmlnsData="ApexChartsNS"
+                                                xmlnsdata="ApexChartsNS"
                                                 transform="translate(0, 0)"
                                                 style={{background: 'transparent'}}
                                             >
@@ -263,9 +263,9 @@ function Dashboard(props) {
                                                                 <g
                                                                     id="SvgjsG1308"
                                                                     className="apexcharts-series apexcharts-radial-series"
-                                                                    seriesName="seriesx1"
+                                                                    seriesname="seriesx1"
                                                                     rel="1"
-                                                                    dataRealIndex="0"
+                                                                    datarealindex="0"
                                                                 >
                                                                     <path
                                                                         id="SvgjsPath1313"
@@ -278,8 +278,8 @@ function Dashboard(props) {
                                                                         strokeWidth="5.695121951219512"
                                                                         strokeDasharray="0"
                                                                         className="apexcharts-radialbar-area apexcharts-radialbar-slice-0"
-                                                                        dataAngle="270"
-                                                                        dataValue="75"
+                                                                        dataangle="270"
+                                                                        datavalue="75"
                                                                         index="0"
                                                                         j="0"
                                                                     ></path>
@@ -339,9 +339,9 @@ function Dashboard(props) {
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 version="1.1"
                                                 xmlnsXlink="http://www.w3.org/1999/xlink"
-                                                xmlnsSvgjs="http://svgjs.com/svgjs"
+                                                xmlnssvgjs="http://svgjs.com/svgjs"
                                                 className="apexcharts-svg"
-                                                xmlnsData="ApexChartsNS"
+                                                xmlnsdata="ApexChartsNS"
                                                 transform="translate(0, 0)"
                                                 style={{background: 'transparent'}}
                                             >
@@ -394,7 +394,8 @@ function Dashboard(props) {
                                                             <g id="SvgjsG1331">
                                                                 <g id="SvgjsG1335"
                                                                    className="apexcharts-series apexcharts-radial-series"
-                                                                   seriesName="seriesx1" rel="1" data-realIndex="0">
+                                                                   seriesname="seriesx1" rel="1"
+                                                                >
                                                                     <path
                                                                         id="SvgjsPath1340"
                                                                         d="M 50 20.762195121951216 A 29.237804878048784 29.237804878048784 0 1 1 26.346118975439794 32.814449483278"
@@ -466,7 +467,7 @@ function Dashboard(props) {
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     version="1.1"
                                                     xmlnsXlink="http://www.w3.org/2000/svg"
-                                                    xmlnsSvgjs="http://svgjs.com/svgjs"
+                                                    xmlnssvgjs="http://svgjs.com/svgjs"
                                                     className="apexcharts-svg"
                                                     style={{background: 'transparent'}}
                                                 >
@@ -572,7 +573,7 @@ function Dashboard(props) {
                                                                 <g id="SvgjsG3507">
                                                                     <g id="SvgjsG3511"
                                                                        className="apexcharts-series apexcharts-radial-series"
-                                                                       seriesName="seriesx1" rel="1" data-realIndex="0">
+                                                                       seriesname="seriesx1" rel="1">
                                                                         <path
                                                                             id="SvgjsPath3516"
                                                                             d="M 50 20.762195121951216 A 29.237804878048784 29.237804878048784 0 1 1 26.346118975439794 32.814449483278"
@@ -741,7 +742,7 @@ function Dashboard(props) {
                                                     </g>
                                                     <g>
                                                         <g className="apexcharts-series apexcharts-radial-series"
-                                                           seriesName="AchievexGoals" rel="1">
+                                                           seriesname="AchievexGoals" rel="1">
                                                             <path
                                                                 d="M 88.86157864327627 248.1384213567237 A 104.84756097560978 104.84756097560978 0 1 1 255.57490158054424 124.77705169449149"
                                                                 fill="none"
