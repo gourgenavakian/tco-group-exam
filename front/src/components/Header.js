@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowAltCircleDown, faBell, faGear, faSearch} from "@fortawesome/free-solid-svg-icons";
 import {Link} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchDataRequest } from "../redux/actions/profileDataActions";
+import { fetchDataRequest } from "../store/actions/profileDataActions";
 
 function Header(props) {
 

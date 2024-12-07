@@ -8,7 +8,7 @@ import './assets/styles/style.css';
 import './assets/styles/theme.css';
 import './assets/styles/media.css';
 import {Provider} from 'react-redux';
-import store from "./redux/store";
+import store from "./store/store";
 import reportWebVitals from './reportWebVitals';
 
 
