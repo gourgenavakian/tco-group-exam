@@ -1,9 +1,22 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowAltCircleDown, faBell, faGear, faSearch} from "@fortawesome/free-solid-svg-icons";
 import {Link} from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchDataRequest } from "../redux/actions/profileDataActions";
 
 function Header(props) {
+
+    const dispatch = useDispatch();
+    const { data, error } = useSelector((state) => state.data);
+
+    const [showDropDownMenu, setShowDropDownMenu] = useState(false);
+    const [showNotification, setShowNotification] = useState(false);
+
+    useEffect(() => {
+        dispatch(fetchDataRequest());
+    }, [dispatch]);
+
     return (
 
         <div className="header">
@@ -62,12 +75,15 @@ function Header(props) {
                 </div>
                 <div className="user-notification">
                     <div className="dropdown">
-                        <Link className="dropdown-toggle no-arrow" to="#" role="button" data-toggle="dropdown">
+                        <Link className="dropdown-toggle no-arrow"
+                              to="#"
+                              role="button"
+                              data-toggle="dropdown" onClick={() => setShowNotification(!showNotification)}>
 
                             <FontAwesomeIcon className="icon-copy dw dw-notification" icon={faBell}/>
                             <span className="badge notification-active"></span>
                         </Link>
-                        <div className="dropdown-menu dropdown-menu-right">
+                        { showNotification && <div className="dropdown-menu dropdown-menu-right" style={{display: 'block', overflowY: 'auto'}}>
                             <div className="notification-list mx-h-350 customscroll">
                                 <ul>
                                     <li>
@@ -120,18 +136,21 @@ function Header(props) {
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div>}
                     </div>
                 </div>
                 <div className="user-info-dropdown">
                     <div className="dropdown">
-                        <Link className="dropdown-toggle" to="#" role="button" data-toggle="dropdown">
+                        <Link className="dropdown-toggle"
+                              to="#" role="button"
+                              data-toggle="dropdown"
+                              onClick={() => setShowDropDownMenu(!showDropDownMenu)}>
 						<span className="user-icon">
 							<img src="/images/photo1.jpg" alt=""/>
 						</span>
-                            <span className="user-name">Ross C. Lopez</span>
+                            <span className="user-name">{data.fullName}</span>
                         </Link>
-                        <div className="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                        { showDropDownMenu && <div className="dropdown-menu dropdown-menu-right dropdown-menu-icon-list" style={{display: 'block'}}>
                             <Link className="dropdown-item" to="profile.html"><i
                                 className="dw dw-user1"></i> Profile</Link>
                             <Link className="dropdown-item" to="profile.html"><i
@@ -139,7 +158,7 @@ function Header(props) {
                             <Link className="dropdown-item" to="faq.html"><i className="dw dw-help"></i> Help</Link>
                             <Link className="dropdown-item" to="login.html"><i className="dw dw-logout"></i> Log
                                 Out</Link>
-                        </div>
+                        </div>}
                     </div>
                 </div>
                 

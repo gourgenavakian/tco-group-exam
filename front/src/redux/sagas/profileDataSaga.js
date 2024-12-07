@@ -6,7 +6,7 @@ function* fetchDataSaga() {
     try {
         const token = localStorage.getItem("token");
         const response = yield call(axios.get, `${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/profile`, {
-            headers: {authorization: `Bearer token`},
+            headers: {authorization: `Bearer ${token}`},
             'Content-Type': 'application/json'
         });
         yield put(fetchDataSuccess(response.data));

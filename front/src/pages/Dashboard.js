@@ -16,8 +16,11 @@ function Dashboard(props) {
 
     useEffect(() => {
         console.log(data);
-    }, [data])
+    }, [data]);
 
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
 
     return (
         <div className="dashboard-container" style={{display: 'flex', flexDirection: 'column'}}>
@@ -34,7 +37,7 @@ function Dashboard(props) {
                             </div>
                             <div className="col-md-8">
                                 <h4 className="font-20 weight-500 mb-10 text-capitalize">
-                                    Welcome back <div className="weight-600 font-30 text-blue">Johnny Brown!</div>
+                                    Welcome back <div className="weight-600 font-30 text-blue">{data.fullName}!</div>
                                 </h4>
                                 <p className="font-18 max-width-600">Lorem ipsum dolor sit amet, consectetur
                                     adipisicing
