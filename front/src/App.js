@@ -14,6 +14,7 @@ function App(props) {
                 <Route path='/home/:username/:id' element={<Dashboard />} />
                 <Route path='/registration' element={<Registration />} />
                 <Route path='/login' element={<Login />} />
+                <Route path='/' element={<Login />} />
                 <Route path='/chat' element={<Chat />} />
                 <Route path='/add-user' element={<AddUser />} />
                 <Route path='/profile' element={<Profile />} />
