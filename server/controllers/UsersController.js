@@ -74,10 +74,9 @@ class UsersController {
     };
 
     static getProfile = async (req, res) => {
-        console.log('profile start')
+
         const userId = req.user.userId
-        console.log('User', req.user);
-        console.log("UserID", userId);
+
         try {
             const user = await User.findOne({ _id: userId });
             if (!user) return res.status(404).json({ message: "User not found" });
