@@ -2,11 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLock, faUser} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import {useNavigate, Link} from "react-router-dom";
+import {useNavigate, Link, useLocation} from "react-router-dom";
 
 function Login(props) {
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [login, setLogin] = useState({
         username: "",
@@ -38,7 +39,7 @@ function Login(props) {
 
             localStorage.setItem('token', token);
 
-            navigate(`/home/${user.username}/${user._id}`);
+            navigate(`/home/${user.username}`);
 
         } catch (err) {
             console.error('Sign in error:', err);
