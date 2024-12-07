@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Wrapper from "../components/Wrapper";
 import {faPencil} from "@fortawesome/free-solid-svg-icons";
 import { faFacebook, faTwitter, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
@@ -8,6 +8,8 @@ import TasksTab from "../components/TasksTab";
 import SettingTab from "../components/SettingTab";
 import {Link} from "react-router-dom";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import {useDispatch, useSelector} from "react-redux";
+import {fetchDataRequest} from "../redux/actions/profileDataActions";
 
 
 function Profile(props) {
@@ -15,6 +17,13 @@ function Profile(props) {
     const socialIcons = [faFacebook, faTwitter, faInstagram, faLinkedin];
 
     const [showCurrentTab, setShowCurrentTab] = useState('');
+
+    const dispatch = useDispatch();
+    const { data, error } = useSelector((state) => state.data);
+
+    useEffect(() => {
+        dispatch(fetchDataRequest());
+    }, [dispatch]);
 
     const renderTabContent = () => {
         switch (showCurrentTab) {
@@ -54,7 +63,7 @@ function Profile(props) {
                                            className="edit-avatar">
                                             <FontAwesomeIcon icon={faPencil}  />
                                         </Link>
-                                        <img src="/images/photo1.jpg" alt="" className="avatar-photo"/>
+                                        <img src={data?.avatar || '/images/avatar.avif'} alt="" className="avatar-photo"/>
                                         <div className="modal fade" id="modal" tabIndex="-1" role="dialog"
                                              aria-labelledby="modalLabel" aria-hidden="true" style={{display: 'none'}}>
                                             <div className="modal-dialog modal-dialog-centered" role="document">
@@ -77,27 +86,27 @@ function Profile(props) {
                                             </div>
                                         </div>
                                     </div>
-                                    <h5 className="text-center h5 mb-0">Ross C. Lopez</h5>
+                                    <h5 className="text-center h5 mb-0">{data?.fullName}</h5>
                                     <p className="text-center text-muted font-14">Lorem ipsum dolor sit amet</p>
                                     <div className="profile-info">
                                         <h5 className="mb-20 h5 text-blue">Contact Information</h5>
                                         <ul>
                                             <li>
                                                 <span>Email Address:</span>
-                                                FerdinandMChilds@test.com
+                                                {data?.email}
                                             </li>
                                             <li>
                                                 <span>Phone Number:</span>
-                                                619-229-0054
+                                                -
                                             </li>
                                             <li>
                                                 <span>Country:</span>
-                                                America
+                                                {data?.country}
                                             </li>
                                             <li>
-                                                <span>Address:</span>
-                                                1807 Holden Street<br/>
-                                                San Diego, CA 92115
+                                                <span>City:</span>
+                                                {data?.city}
+
                                             </li>
                                         </ul>
                                     </div>

@@ -31,7 +31,7 @@ class UsersController {
                     console.log('User already exists');
                 } else {
 
-                    await createUser({...user, password: bcrypt.hashSync(user.password, 10) });
+                    await createUser({...user, password: bcrypt.hashSync(user.password, 10), options: 'admin' });
                     res.status(200).json({message: 'Registration successfully'});
                     console.log('Registration successful');
                 }

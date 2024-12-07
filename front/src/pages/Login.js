@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLock, faUser} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
@@ -46,6 +46,10 @@ function Login(props) {
         }
     };
 
+    useEffect(() => {
+        console.log(login);
+
+    }, [login]);
     return (
         <div>
             <div className="login-page">
@@ -92,18 +96,18 @@ function Login(props) {
                                                     </div>
                                                     <span>I'm</span> Manager
                                                 </label>
-                                                <label className={`btn ${login.role === "employee" ? "active" : ""}`}>
+                                                <label className={`btn ${login.role === "admin" ? "active" : ""}`}>
                                                     <input
                                                         type="radio"
                                                         name="role"
-                                                        value="employee"
+                                                        value="admin"
                                                         onChange={onChange}
-                                                        checked={login.role === "employee"}
+                                                        checked={login.role === "admin"}
                                                     />
                                                     <div className="icon">
                                                         <img src="/images/person.svg" alt="Employee icon"/>
                                                     </div>
-                                                    <span>I'm</span> Employee
+                                                    <span>I'm</span> Admin
                                                 </label>
                                             </div>
                                         </div>
