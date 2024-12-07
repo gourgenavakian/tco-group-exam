@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import Chart1 from "../components/Chart";
 import Wrapper from "../components/Wrapper";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchDataRequest } from "../redux/actions/profileDataActions";
+import { fetchDataRequest } from "../store/actions/profileDataActions";
 
 
 function Dashboard(props) {
