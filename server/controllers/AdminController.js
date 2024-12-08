@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 
 class AdminController {
 
-    static getUsers = async (req, res) => {
+    static getAdmin = async (req, res) => {
         try {
 
             const data = await Admin.find();
@@ -17,7 +17,7 @@ class AdminController {
         }
     };
 
-    static registerUsers = async (req, res) => {
+    static registerAdmin = async (req, res) => {
         const admin = req.body;
         console.log(admin);
         try {
@@ -42,7 +42,7 @@ class AdminController {
         }
     };
 
-    static loginUsers = async (req, res) => {
+    static loginAdmin = async (req, res) => {
         const { username, password, options } = req.body;
 
         try {
