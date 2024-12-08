@@ -1,18 +1,20 @@
 const {Manager} = require('../config/managerDB');
+const {Admin} = require('../config/adminDB');
+
 class ManagerModel {
 
-    static createManager = async (manager) => {
+    static createManager = async (managers) => {
 
-        if (typeof manager === 'object') {
+        if (typeof managers === 'object') {
             try{
-                const newManager = new Manager(manager);
+                const newManager = new Manager(managers);
                 await newManager.save();
                 console.log('New Manager saved on DB: ', newManager);
 
-                // const admin = await Admin.findOne();
-                // admin.manager.push(newManager);
-                // await admin.save();
-                // console.log('Manager added to Admin:', admin);
+                const admin = await Admin.findOne();
+                admin.managers.push({id: newManager._id, username: newManager.username});
+                await admin.save();
+                console.log('Manager added to Admin:', admin);
 
 
 

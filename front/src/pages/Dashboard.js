@@ -14,9 +14,6 @@ function Dashboard(props) {
         dispatch(fetchDataRequest());
     }, [dispatch]);
 
-    useEffect(() => {
-        console.log(data);
-    }, [data]);
 
     if (error) {
         return <div>Error: {error.message}</div>;

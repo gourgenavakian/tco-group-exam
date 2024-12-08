@@ -22,7 +22,7 @@ function App(props) {
                 {/* Protected Routes */}
                 <Route path="/home/:username" element={<Dashboard />} />
                 <Route path="/home/:username/chat" element={<Chat />} />
-                <Route path="/home/:username/add-user" element={<AddManager />} />
+                <Route path="/home/:username/add-manager" element={<AddManager />} />
                 <Route path="/home/:username/profile" element={<Profile />} />
 
                 {/* Catch-All Route */}
