@@ -1,6 +1,4 @@
 const {Manager} = require('../config/managerDB');
-const {Admin} = require('../config/adminDB')
-
 class ManagerModel {
 
     static createManager = async (manager) => {
@@ -11,10 +9,11 @@ class ManagerModel {
                 await newManager.save();
                 console.log('New Manager saved on DB: ', newManager);
 
-                const admin = await Admin.findOne();
-                admin.manager.push(newManager);
-                await admin.save();
-                console.log('Manager added to Admin:', admin);
+                // const admin = await Admin.findOne();
+                // admin.manager.push(newManager);
+                // await admin.save();
+                // console.log('Manager added to Admin:', admin);
+
 
 
             }catch(err){
