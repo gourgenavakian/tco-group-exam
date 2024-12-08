@@ -4,8 +4,6 @@ import {Link} from 'react-router-dom';
 import { Link as ScrollLink } from 'react-scroll';
 import axios from 'axios';
 import RegisterSuccess from "../components/RegistrationSuccess";
-import {useDispatch} from "react-redux";
-import {fetchDataRequest} from "../store/actions/profileDataActions";
 
 function Registration(props) {
 
@@ -13,9 +11,6 @@ function Registration(props) {
     const [agree, setAgree] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
 
-    // const location = useLocation();
-    const dispatch = useDispatch();
-    // const { data } = useSelector((state) => state.data);
 
     const [info, setInfo] = useState({
         email: '',
@@ -465,9 +460,6 @@ function Registration(props) {
         );
     }
 
-    useEffect(() => {
-        dispatch(fetchDataRequest());
-    }, [dispatch]);
 
     return (
         <div className="login-page">

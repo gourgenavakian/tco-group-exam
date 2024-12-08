@@ -12,9 +12,6 @@ function Login(props) {
     const location = useLocation();
 
 
-    const dispatch = useDispatch();
-    const { data } = useSelector((state) => state.data);
-
     const [login, setLogin] = useState({
         username: "",
         password: "",
@@ -37,27 +34,32 @@ function Login(props) {
 
         try {
 
-                const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/login`, {...login});
+            if (login.role === "admin") {
+                const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/admin/login`, {...login});
 
                 const token = response.data.token;
                 const admin = response.data.admin;
 
-
                 localStorage.setItem('token', token);
 
                 return navigate(`/home/${admin.username}`);
+            }
+            else if (login.role === "manager") {
+                const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/manager/login`, {...login});
 
+                const token = response.data.token;
+                const manager = response.data.manager;
 
+                localStorage.setItem('token', token);
+
+                return navigate(`/home/${manager.username}`);
+            }
 
         } catch (err) {
             console.error('Sign in error:', err);
-            // setMessage(err.response);
+
         }
     };
-
-    useEffect(() => {
-        dispatch(fetchDataRequest());
-    }, [dispatch]);
 
 
     return (
