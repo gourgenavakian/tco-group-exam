@@ -5,7 +5,7 @@ import { Link as ScrollLink } from 'react-scroll';
 import axios from 'axios';
 import RegisterSuccess from "../components/RegistrationSuccess";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchDataRequest} from "../redux/actions/profileDataActions";
+import {fetchDataRequest} from "../store/actions/profileDataActions";
 
 function Registration(props) {
 
