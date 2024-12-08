@@ -4,8 +4,9 @@ import Registration from "./pages/Registration";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat";
-import AddUser from "./pages/AddUser";
+import AddManager from "./pages/AddManager";
 import Profile from "./pages/Profile";
+import RegisterUsers from "./pages/RegisterUsers";
 
 function App(props) {
     return (
@@ -16,11 +17,12 @@ function App(props) {
                 <Route path="/admin/registration" element={<Registration />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/admin/login" element={<Login />} />
+                <Route path="/users/registration" element={<RegisterUsers />} />
 
                 {/* Protected Routes */}
                 <Route path="/home/:username" element={<Dashboard />} />
                 <Route path="/home/:username/chat" element={<Chat />} />
-                <Route path="/home/:username/add-user" element={<AddUser />} />
+                <Route path="/home/:username/add-user" element={<AddManager />} />
                 <Route path="/home/:username/profile" element={<Profile />} />
 
                 {/* Catch-All Route */}

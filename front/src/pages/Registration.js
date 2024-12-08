@@ -455,7 +455,7 @@ function Registration(props) {
                                     aria-hidden="false"
                                     aria-disabled="false"
                                     style={{width: '100%'}}
-                                    disabled={!agree || (data && location.pathname.includes('admin'))}
+                                    disabled={!agree}
                             >Submit
                             </button>}
 

@@ -187,10 +187,18 @@ function Login(props) {
                                                     OR
                                                 </div>
                                                 <div className="input-group mb-0">
-                                                    <Link className="btn btn-outline-primary btn-lg btn-block"
-                                                          to="/registration">
-                                                        {location.pathname.includes('admin') && !data ? 'Register To Create Account' : 'Join'}
-                                                    </Link>
+                                                    {
+                                                        location.pathname.includes('admin') ?
+                                                            <Link className="btn btn-outline-primary btn-lg btn-block"
+                                                                  to="/registration">
+                                                                Register To Create Account
+                                                            </Link>
+                                                            :
+                                                            <Link className="btn btn-outline-primary btn-lg btn-block"
+                                                                  to="/users/registration">
+                                                                Join
+                                                            </Link>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
