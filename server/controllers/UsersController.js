@@ -13,7 +13,7 @@ class UsersController {
                 return res.status(404).send({ message: "Admin not found" });
             }
 
-            const referral = admin.Sales.find(sales => sales.username === user.referralsUsername);
+            const referral = admin.managers.find(sales => sales.username === user.referralsUsername);
 
             if (referral) {
                 referral.users.push(user);

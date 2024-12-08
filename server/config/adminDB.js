@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     avatar:{ type: String, required: false },
     options:{ type: String, required: true },
     users: {type: Array, required: false },
-    manager: {type: Array, required: false },
+    managers: {type: Array, required: false },
 });
 
 const Admin = mongoose.model('Admin', userSchema);
