@@ -29,9 +29,10 @@ function Registration(props) {
                 month: '',
                 year: ''
             },
-        }
-
-
+        },
+        role: 'admin',
+        createdAt: new Date().toISOString(),
+        isActive: true
     });
 
 
@@ -73,7 +74,7 @@ function Registration(props) {
 
             console.log('request', req);
 
-            if (req.status === 200) {
+            if (req.status === 201) {
                 setShowSuccess(true);
             }
 

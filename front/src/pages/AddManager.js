@@ -1,19 +1,31 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEnvelope, faLock, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Wrapper from "../components/Wrapper";
 import axios from "axios";
+import Select from "react-select";
 
 function PageAddManager() {
+
+
+    const userID = localStorage.getItem("userID");
+    const [dynamicHeader, setDynamicHeader] = useState('Manager');
+
     const [info, setInfo] = useState({
         email: "",
         username: "",
         password: "",
+        passportID: "",
         fullName: "",
         gender: "",
         country: "",
-        city: ""
+        city: "",
+        role: "",
+        createdBy: userID,
+        managedUsers: [],
+        createdAt: new Date().toISOString(),
+        isActive: true
     });
 
     const onChange = (e) => {
@@ -27,7 +39,7 @@ function PageAddManager() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/admin/add-manager`, {...info});
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/registration`, {...info});
             console.log(response);
 
         }catch(err){
@@ -35,7 +47,6 @@ function PageAddManager() {
         }
 
     };
-
 
     return (
         <Wrapper>
@@ -63,7 +74,7 @@ function PageAddManager() {
                         </div>
                         <div className="bg-white border-radius-4 box-shadow mb-30">
                             <div className="pd-20">
-                                <h5 className="text-center mb-4">Manager information</h5>
+                                <h5 className="text-center mb-4">{dynamicHeader} information</h5>
                                 <form onSubmit={handleSubmit}>
 
                                     {/* Email */}
@@ -138,21 +149,57 @@ function PageAddManager() {
                                         />
                                     </div>
 
-                                    {/* Gender */}
+
+                                    <div className="form-group">
+                                        <label htmlFor="passportID">
+                                            Passport ID*
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="passportID"
+                                            className="form-control"
+                                            id="passportID"
+                                            placeholder="Enter Full Name"
+                                            value={info.passportID}
+                                            onChange={onChange}
+                                            required
+                                        />
+                                    </div>
+
+                                     {/*Gender*/}
                                     <div className="form-group">
                                         <label htmlFor="gender">Gender</label>
-                                        <select
-                                            className="form-control"
-                                            id="gender"
-                                            name="gender"
-                                            value={info.gender}
-                                            onChange={onChange}
-                                        >
-                                            <option value="">Gender</option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                        </select>
+                                        <Select
+                                            options={[
+                                                { value: 'male', label: 'Male' },
+                                                { value: 'female', label: 'Female' }
+                                            ]}
+                                            onChange={(option) => {
+                                                setInfo((prevInfo) => ({
+                                                    ...prevInfo,
+                                                    gender: option.value
+                                                }));
+                                            }}
+                                        />
                                     </div>
+
+                                    {/*Role*/}
+                                    <div className="form-group">
+                                        <label htmlFor="role">Role*</label>
+                                        <Select
+                                            options={[
+                                                { value: 'manager', label: 'Manager' },
+                                                { value: 'user', label: 'User' }
+                                            ]}
+                                            onChange={(option) => {
+                                                setInfo((prevInfo) => ({
+                                                    ...prevInfo,
+                                                    role: option.value
+                                                }));
+                                                setDynamicHeader(option.label)
+                                            }}/>
+                                    </div>
+
 
                                     {/* Country */}
                                     <div className="form-group">

@@ -34,26 +34,16 @@ function Login(props) {
 
         try {
 
-            if (login.role === "admin") {
-                const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/admin/login`, {...login});
+                const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/login`, {...login});
 
                 const token = response.data.token;
-                const admin = response.data.admin;
+                const user = response.data.user;
 
                 localStorage.setItem('token', token);
+                localStorage.setItem('userID', user._id);
 
-                return navigate(`/home/${admin.username}`);
-            }
-            else if (login.role === "manager") {
-                const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/manager/login`, {...login});
+                return navigate(`/home/${user.username}`);
 
-                const token = response.data.token;
-                const manager = response.data.manager;
-
-                localStorage.setItem('token', token);
-
-                return navigate(`/home/${manager.username}`);
-            }
 
         } catch (err) {
             console.error('Sign in error:', err);
