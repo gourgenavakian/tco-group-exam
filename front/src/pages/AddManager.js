@@ -13,7 +13,7 @@ function PageAddManager() {
         fullName: "",
         gender: "",
         country: "",
-        city: "",
+        city: ""
     });
 
     const onChange = (e) => {
