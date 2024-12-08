@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
+const managerSchema = new mongoose.Schema({
     email: { type: String, required: true },
     username:{ type: String, required: true },
     fullName: { type: String, required: true },
@@ -8,13 +8,11 @@ const userSchema = new mongoose.Schema({
     password:{ type: String, required: true },
     city:{ type: String, required: false },
     country:{ type: String, required: false },
-    card:{ type: Object, required: true },
     avatar:{ type: String, required: false },
     options:{ type: String, required: true },
     users: {type: Array, required: false },
-    manager: {type: Array, required: false },
 });
 
-const Admin = mongoose.model('Admin', userSchema);
+const Manager = mongoose.model('Manager', managerSchema);
 
-module.exports = {Admin};
+module.exports = {Manager};
