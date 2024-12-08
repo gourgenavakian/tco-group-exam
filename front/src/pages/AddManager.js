@@ -10,7 +10,6 @@ function PageAddManager() {
         email: "",
         username: "",
         password: "",
-        confirmPassword: "",
         fullName: "",
         gender: "",
         country: "",
@@ -121,22 +120,6 @@ function PageAddManager() {
                                         />
                                     </div>
 
-                                    {/* Confirm password */}
-                                    <div className="form-group">
-                                        <label htmlFor="confirmPassword">
-                                            Confirm password*
-                                        </label>
-                                        <input
-                                            type="password"
-                                            name="confirmPassword"
-                                            className="form-control"
-                                            id="confirmPassword"
-                                            placeholder="Confirm Password"
-                                            value={info.confirmPassword}
-                                            onChange={onChange}
-                                            required
-                                        />
-                                    </div>
 
                                     {/* Full name */}
                                     <div className="form-group">
