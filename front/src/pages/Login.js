@@ -2,11 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLock, faUser} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import {useNavigate, Link} from "react-router-dom";
+import {useNavigate, Link, useLocation} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchDataRequest} from "../redux/actions/profileDataActions";
 
 function Login(props) {
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+
+    const dispatch = useDispatch();
+    const { data } = useSelector((state) => state.data);
 
     const [login, setLogin] = useState({
         username: "",
@@ -30,15 +37,16 @@ function Login(props) {
 
         try {
 
-            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/login`, { ...login });
+                const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/login`, {...login});
 
-            const token = response.data.token;
-            const user = response.data.user;
+                const token = response.data.token;
+                const admin = response.data.admin;
 
 
-            localStorage.setItem('token', token);
+                localStorage.setItem('token', token);
 
-            navigate(`/home/${user.username}/${user._id}`);
+                return navigate(`/home/${admin.username}`);
+
 
         } catch (err) {
             console.error('Sign in error:', err);
@@ -47,9 +55,10 @@ function Login(props) {
     };
 
     useEffect(() => {
-        console.log(login);
+        dispatch(fetchDataRequest());
+    }, [dispatch]);
 
-    }, [login]);
+
     return (
         <div>
             <div className="login-page">
@@ -180,7 +189,7 @@ function Login(props) {
                                                 <div className="input-group mb-0">
                                                     <Link className="btn btn-outline-primary btn-lg btn-block"
                                                           to="/registration">
-                                                        Register To Create Account
+                                                        {location.pathname.includes('admin') && !data ? 'Register To Create Account' : 'Join'}
                                                     </Link>
                                                 </div>
                                             </div>
