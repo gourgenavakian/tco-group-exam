@@ -6,6 +6,7 @@ const { registerAdmin, loginAdmin,  getProfile } = require('../controllers/Admin
 /* GET users listing. */
 router.get('/profile', authorizationUsers, getProfile);
 
+router.post('/admin/registration', registerAdmin);
 router.post('/registration', registerAdmin);
 router.post('/login', loginAdmin);
 

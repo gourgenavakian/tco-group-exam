@@ -1,15 +1,21 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Select from 'react-select';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import { Link as ScrollLink } from 'react-scroll';
 import axios from 'axios';
 import RegisterSuccess from "../components/RegistrationSuccess";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchDataRequest} from "../redux/actions/profileDataActions";
 
 function Registration(props) {
 
     const [step, setStep] = useState(1);
     const [agree, setAgree] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
+
+    const location = useLocation();
+    const dispatch = useDispatch();
+    const { data } = useSelector((state) => state.data);
 
     const [info, setInfo] = useState({
         email: '',
@@ -64,13 +70,11 @@ function Registration(props) {
         if (step > 1) setStep(step - 1);
     }
 
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try{
-            const req = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/registration`, {...info});
+            const req = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/admin/registration`, {...info});
 
             console.log('request', req);
 
@@ -83,7 +87,6 @@ function Registration(props) {
         }
 
     };
-
 
     const renderSteps = () => {
 
@@ -452,7 +455,7 @@ function Registration(props) {
                                     aria-hidden="false"
                                     aria-disabled="false"
                                     style={{width: '100%'}}
-                                    disabled={!agree}
+                                    disabled={!agree || (data && location.pathname.includes('admin'))}
                             >Submit
                             </button>}
 
@@ -462,6 +465,9 @@ function Registration(props) {
         );
     }
 
+    useEffect(() => {
+        dispatch(fetchDataRequest());
+    }, [dispatch]);
 
     return (
         <div className="login-page">
