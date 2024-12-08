@@ -40,7 +40,7 @@ function LeftSideMenu(props) {
                         </li>
 
                         <li>
-                            <Link to="/add-manager" className="dropdown-toggle no-arrow">
+                            <Link to="/home/:username/add-manager" className="dropdown-toggle no-arrow">
                                 <span className="micon dw dw-invoice"><FontAwesomeIcon icon={faAdd}/></span><span
                                 className="mtext">Add Manager</span>
                             </Link>

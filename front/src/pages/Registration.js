@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import Select from 'react-select';
-import {Link, useLocation} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import { Link as ScrollLink } from 'react-scroll';
 import axios from 'axios';
 import RegisterSuccess from "../components/RegistrationSuccess";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {fetchDataRequest} from "../store/actions/profileDataActions";
 
 function Registration(props) {
@@ -13,9 +13,9 @@ function Registration(props) {
     const [agree, setAgree] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
 
-    const location = useLocation();
+    // const location = useLocation();
     const dispatch = useDispatch();
-    const { data } = useSelector((state) => state.data);
+    // const { data } = useSelector((state) => state.data);
 
     const [info, setInfo] = useState({
         email: '',

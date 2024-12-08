@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEnvelope, faLock, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Wrapper from "../components/Wrapper";
+import axios from "axios";
 
 function PageAddManager() {
     const [info, setInfo] = useState({
@@ -24,9 +25,16 @@ function PageAddManager() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(info);
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/admin/add-manager`, {...info});
+            console.log(response);
+
+        }catch(err){
+            console.log(err);
+        }
+
     };
 
 
