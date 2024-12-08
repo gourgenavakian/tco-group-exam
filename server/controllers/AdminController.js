@@ -1,15 +1,15 @@
-const { User } = require('../config/userDB');
-const {createUser} = require('../models/UsersModel')
+const { Admin } = require('../config/adminDB');
+const {createAdmin} = require('../models/AdminModel')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 
-class UsersController {
+class AdminController {
 
     static getUsers = async (req, res) => {
         try {
 
-            const data = await User.find();
+            const data = await Admin.find();
             return res.status(200).json(data);
         } catch (error) {
             console.error(error);
@@ -18,12 +18,12 @@ class UsersController {
     };
 
     static registerUsers = async (req, res) => {
-        const user = req.body;
-        console.log(user);
+        const admin = req.body;
+        console.log(admin);
         try {
-            if (user) {
+            if (admin) {
 
-                const existingUser = await User.findOne({ email: user.email });
+                const existingUser = await Admin.findOne({ email: admin.email });
                 console.log('existingUser', existingUser);
 
                 if (existingUser) {
@@ -31,7 +31,7 @@ class UsersController {
                     console.log('User already exists');
                 } else {
 
-                    await createUser({...user, password: bcrypt.hashSync(user.password, 10), options: 'admin' });
+                    await createAdmin({...admin, password: bcrypt.hashSync(admin.password, 10), options: 'admin' });
                     res.status(200).json({message: 'Registration successfully'});
                     console.log('Registration successful');
                 }
@@ -47,26 +47,26 @@ class UsersController {
 
         try {
 
-            const user = await User.findOne({ username });
+            const admin = await Admin.findOne({ username });
 
-            if (!user) {
+            if (!admin) {
                 return res.status(400).json({ message: 'User not found' });
             }
 
 
-            const isPasswordValid = bcrypt.compareSync(password, user.password) && username === user.username;
+            const isPasswordValid = bcrypt.compareSync(password, admin.password) && username === admin.username;
             if (!isPasswordValid) {
                 return res.status(400).json({ message: 'Wrong email or password' });
             }
 
 
             const token = jwt.sign(
-                { userId: user._id },
+                { userId: admin._id },
                 process.env.JWT_SECRET_KEY,
                 { expiresIn: '1h' }
             );
 
-            res.status(200).json({ token, user });
+            res.status(200).json({ token, admin });
         } catch (err) {
             console.error(err);
             res.status(500).json({ message: 'Server error' });
@@ -78,10 +78,10 @@ class UsersController {
         const userId = req.user.userId
 
         try {
-            const user = await User.findOne({ _id: userId });
-            if (!user) return res.status(404).json({ message: "User not found" });
+            const admin = await Admin.findOne({ _id: userId });
+            if (!admin) return res.status(404).json({ message: "User not found" });
 
-            res.status(200).json(user);
+            res.status(200).json(admin);
         } catch (err) {
             console.log(err);
             res.status(500).json({ message: 'Server error' });
@@ -90,4 +90,4 @@ class UsersController {
 
 }
 
-module.exports = UsersController;
+module.exports = AdminController;

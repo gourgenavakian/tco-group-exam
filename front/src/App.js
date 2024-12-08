@@ -11,15 +11,20 @@ function App(props) {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/registration' element={<Registration />} />
-                <Route path='/admin/:registration' element={<Registration />} />
-                <Route path='/login' element={<Login />} />
-                <Route path='admin/:login' element={<Login />} />
-                <Route path='/' element={<Login />} />
-                <Route path='/home/:username' element={<Dashboard />} />
-                <Route path='/home/:username/:chat' element={<Chat />} />
-                <Route path='/home/:username/:add-user' element={<AddUser />} />
-                <Route path='/home/:username/:profile' element={<Profile />} />
+                {/* Public Routes */}
+                <Route path="/registration" element={<Registration />} />
+                <Route path="/admin/registration" element={<Registration />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/admin/login" element={<Login />} />
+
+                {/* Protected Routes */}
+                <Route path="/home/:username" element={<Dashboard />} />
+                <Route path="/home/:username/chat" element={<Chat />} />
+                <Route path="/home/:username/add-user" element={<AddUser />} />
+                <Route path="/home/:username/profile" element={<Profile />} />
+
+                {/* Catch-All Route */}
+                <Route path="*" element={<div>404 - Page Not Found</div>} />
             </Routes>
         </BrowserRouter>
     );
