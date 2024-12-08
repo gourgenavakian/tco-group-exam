@@ -1,20 +1,56 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    email: { type: String, required: true },
-    username:{ type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    username: { type: String, required: true },
     fullName: { type: String, required: true },
-    gender:{ type: String, required: true },
-    password:{ type: String, required: true },
-    city:{ type: String, required: false },
-    country:{ type: String, required: false },
-    card:{ type: Object, required: true },
-    avatar:{ type: String, required: false },
-    options:{ type: String, required: true },
-    users: {type: Array, required: false },
-    managers: {type: Array, required: false },
+    gender: {
+        type: String,
+        enum: ['male', 'female', 'other'],
+        required: true
+    },
+    password: {
+        type: String,
+        required: function() { return this.role !== 'user'; } },
+    passportID: {
+        type: String,
+        required: function() { return this.role !== 'admin'; } },
+    city: { type: String },
+    country: { type: String },
+    card: {
+        type: { type: String },
+        creditCardNumber: { type: String },
+        expirationDate: {
+            month: { type: String },
+            year: { type: String },
+        },
+        cvv: { type: String }
+    },
+    avatar: { type: String },
+    role: {
+        type: String,
+        enum: ['admin', 'manager', 'user'],
+        default: 'user'
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: function() { return this.role !== 'admin'; }
+    },
+    managedUsers: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        }],
+        default: undefined,
+        required: function () { return this.role === 'manager'; }
+    },
+    createdAt: { type: Date, default: Date.now },
+    isActive: { type: Boolean, default: true },
 });
 
-const Admin = mongoose.model('Admin', userSchema);
 
-module.exports = {Admin};
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = {User};

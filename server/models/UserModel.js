@@ -1,20 +1,22 @@
-const {Admin} = require('../config/adminDB');
+const {User} = require('../config/adminDB');
 
-class AdminModel {
+class UserModel {
 
-    static createAdmin = async (admin) => {
-        if (typeof admin === 'object') {
+    static createUser = async (user) => {
+        if (typeof user === 'object') {
             try{
-                const newAdmin = new Admin(admin);
-                await newAdmin.save();
-                console.log('New Admin saved on DB: ', newAdmin);
+                const newUser = new User(user);
+                await newUser.save();
+
+                console.log('New User saved on DB: ', newUser);
+                return newUser;
 
             }catch(err){
-                console.log('Error saving Admin: ', err);
+                console.log('Error saving User: ', err);
             }
         }
     }
 
 }
 
-module.exports = AdminModel;
+module.exports = UserModel;

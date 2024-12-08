@@ -1,10 +1,10 @@
 const { User } = require('../config/adminDB');
-const {createAdmin} = require('../models/AdminModel')
+const {createUser} = require('../models/UserModel')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 
-class AdminController {
+class UserController {
 
     static getUser = async (req, res) => {
         try {
@@ -19,28 +19,75 @@ class AdminController {
 
     static registerUser = async (req, res) => {
         const user = req.body;
-        console.log(user);
+        console.log('Received user data:', user);
+
         try {
-            if (user) {
 
-                const existingUser = await User.findOne({ email: admin.email });
-                console.log('existingUser', existingUser);
+            if (!user.email || !user.password || !user.username || !user.fullName || !user.gender) {
+                return res.status(400).json({ message: 'Required fields are missing' });
+            }
 
-                if (existingUser) {
-                    res.status(200).send('User already exists');
-                    console.log('User already exists');
+            if ((user.role === 'admin' || user.role === 'manager') && !user.password) {
+                return res.status(400).json({ message: 'Password is required for admin and manager roles' });
+            }
+
+            const existingUser = await User.findOne({ email: user.email });
+            if (existingUser) {
+                return res.status(409).json({ message: 'User with this email already exists' });
+            }
+
+            const hashedPassword = bcrypt.hashSync(user.password, 10);
+
+
+            const newUserData = {
+                email: user.email,
+                username: user.username,
+                fullName: user.fullName,
+                gender: user.gender,
+                password: hashedPassword,
+                passportID: user.passportID || null,
+                city: user.city || null,
+                country: user.country || null,
+                card: {
+                    number: user.card?.number || null,
+                    expirationDate: user.card?.expirationDate || null,
+                    cvv: user.card?.cvv || null,
+                },
+                managedUsers: user.managedUsers,
+                avatar: user.avatar || null,
+                role: user.role || 'user',
+                createdBy: user.createdBy || null,
+            };
+
+            if (user.referralsUsername) {
+                const referredUser = await User.findOne({ username: user.referralsUsername, role: 'manager' });
+                if (referredUser) {
+
+                    newUserData.createdBy = referredUser._id;
+
+                    referredUser.managedUsers.push(newUserData._id);
+                    await referredUser.save();
                 } else {
-
-                    await createAdmin({...user, password: bcrypt.hashSync(user.password, 10), options: 'admin' });
-                    res.status(200).json({message: 'Registration successfully'});
-                    console.log('Registration successful');
+                    return res.status(404).json({ message: 'Referred manager not found' });
                 }
             }
+
+            const newUser = await createUser(newUserData);
+
+            res.status(201).json({
+                message: 'Registration successful',
+                user: {
+                    id: newUser._id,
+                    email: newUser.email,
+                    role: newUser.role,
+                },
+            });
+            console.log('Registration successful');
         } catch (err) {
-            res.status(500).json({ message: 'Something went wrong' });
-            console.error(err);
+            console.error('Error during registration:', err);
+            res.status(500).json({ message: 'Something went wrong', error: err.message });
         }
-    };
+    }
 
     static loginUser = async (req, res) => {
         const { username, password, options } = req.body;
@@ -91,4 +138,4 @@ class AdminController {
 
 }
 
-module.exports = AdminController;
+module.exports = UserController;
