@@ -1,6 +1,8 @@
 const { Manager } = require("../config/managerDB");
 const bcrypt = require("bcrypt");
 const {createManager}= require('../models/ManagerModel')
+const {Admin} = require("../config/adminDB");
+const jwt = require("jsonwebtoken");
 
 class ManagerController {
 
@@ -37,6 +39,38 @@ class ManagerController {
             console.error(err);
         }
     }
+
+    static loginManager = async (req, res) => {
+        const { username, password, options } = req.body;
+
+        try {
+
+            const manager = await Manager.findOne({username: username});
+
+            if (!manager) {
+                return res.status(400).json({ message: 'User not found' });
+            }
+
+
+            const isPasswordValid = bcrypt.compareSync(password, manager.password) && username === manager.username;
+            if (!isPasswordValid) {
+                return res.status(400).json({ message: 'Wrong email or password' });
+            }
+
+
+            const token = jwt.sign(
+                { userId: manager._id },
+                process.env.JWT_SECRET_KEY,
+                { expiresIn: '1h' }
+            );
+
+            res.status(200).json({ token, manager });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Server error' });
+        }
+    };
+
 
 
 }
