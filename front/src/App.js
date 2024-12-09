@@ -7,6 +7,7 @@ import Chat from "./pages/Chat";
 import AddManager from "./pages/AddManager";
 import Profile from "./pages/Profile";
 import RegisterUsers from "./pages/RegisterUsers";
+import Error404 from "./pages/Error404";
 
 function App(props) {
     return (
@@ -26,7 +27,7 @@ function App(props) {
                 <Route path="/home/:username/profile" element={<Profile />} />
 
                 {/* Catch-All Route */}
-                <Route path="*" element={<div>404 - Page Not Found</div>} />
+                <Route path="*" element={<Error404/>} />
             </Routes>
         </BrowserRouter>
     );
