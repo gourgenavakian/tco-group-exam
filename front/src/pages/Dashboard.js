@@ -3,19 +3,29 @@ import Chart1 from "../components/Chart";
 import Wrapper from "../components/Wrapper";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchDataRequest } from "../store/actions/profileDataActions";
+import PreLoader from "../components/PreLoader";
 
 
 function Dashboard(props) {
 
     const dispatch = useDispatch();
-    const { data, error } = useSelector((state) => state.data);
+    const { data, error, loading } = useSelector((state) => state.data);
+    console.log(loading);
 
     useEffect(() => {
-        dispatch(fetchDataRequest());
-    }, [dispatch]);
+        console.log("useEffect triggered");
+        if (!data && !loading) {
+            console.log("Dispatching fetchDataRequest");
+            dispatch(fetchDataRequest());
+        }
+    }, [data, loading]);
 
+    if (loading && !data) {
+        console.log(loading)
+        return <PreLoader />;
+    }
 
-    if (error) {
+    if (error && !data) {
         return <div>Error: {error.message}</div>;
     }
 

@@ -3,19 +3,23 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLock, faUser} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import {useNavigate, Link, useLocation} from "react-router-dom";
+import useLocalStorage from "../helpers/useLocalStorage";
 
-function Login(props) {
+function Login() {
 
     const navigate = useNavigate();
     const location = useLocation();
 
 
+    // const [, setToken] = useLocalStorage("token");
+    // const [, setUserID] = useLocalStorage("user_id");
     const [login, setLogin] = useState({
         username: "",
         password: "",
         role: "",
         remember: false,
     });
+    const [message, setMessage] = useState('')
 
     const onChange = e => {
 
@@ -29,7 +33,10 @@ function Login(props) {
 
     const handleSubmit = async e => {
         e.preventDefault();
-
+        if (!login.role || !login.password || !login.username) {
+            setMessage('For sign in please enter all fields adn enter your role !!!');
+            return;
+        }
         try {
 
                 const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/login`, {...login});
@@ -37,13 +44,19 @@ function Login(props) {
                 const token = response.data.token;
                 const user = response.data.user;
 
-                localStorage.setItem('token', token);
-                localStorage.setItem('userID', user._id);
+                // setToken(token);
+                // setUserID(user._id);
+
+                localStorage.setItem("token", token);
+                localStorage.setItem("userId", JSON.stringify(user._id));
+
+                setMessage('');
 
                 return navigate(`/home/${user.username}`);
 
 
         } catch (err) {
+            setMessage(err.response.data.message);
             console.error('Sign in error:', err);
 
         }
@@ -78,7 +91,8 @@ function Login(props) {
                             <div className="col-md-6 col-lg-5">
                                 <div className="login-box bg-white box-shadow border-radius-10">
                                     <div className="login-title">
-                                        <h2 className="text-center text-primary">Login To DeskApp</h2>
+                                        <h2 className="text-center text-primary">Login To DeskApp</h2><br/>
+                                        <p className="text-center" style={{color: 'red'}}>{message}</p>
                                     </div>
                                     <form>
                                         <div className="select-role">

@@ -54,6 +54,8 @@ class UserController {
                 avatar: user.avatar || null,
                 role: user.role || 'user',
                 createdBy: user.createdBy || null,
+                createdAt: new Date().toISOString(),
+                isActive: user.isActive || null,
             };
 
             if (user.referralsUsername) {

@@ -16,6 +16,7 @@ const authorizationUsers = (req, res, next) => {
     }
 
     jwt.verify(token, secretKey, (err, user) => {
+
         if (err) {
             console.error("JWT verification failed:", err.message);
             return res.status(403).json({ message: 'Access denied', error: err.message });

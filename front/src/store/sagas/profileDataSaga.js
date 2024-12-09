@@ -1,19 +1,22 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import axios from "axios";
-import {BASE_TOKEN, ENDPOINTS} from "../api";
+import ApiService from "../api/apiService";
 import { FETCH_DATA_REQUEST, fetchDataSuccess, fetchDataFailure } from "../actions/profileDataActions";
+
 
 function* fetchDataSaga() {
     try {
+        console.log("Fetching data started");
 
-        const response = yield call(axios.get, ENDPOINTS.GET_PROFILE_DATA, {
-            headers: {authorization: `Bearer ${BASE_TOKEN}`},
-            'Content-Type': 'application/json'
-        });
+        const response = yield call(ApiService.getProfileData);
+        console.log("Data successfully fetched:", response.data);
 
         yield put(fetchDataSuccess(response.data));
     } catch (error) {
-        yield put(fetchDataFailure(error.message));
+        console.error("Error while fetching data:", error);
+
+        const errorMessage = error.response?.data?.message || "Unknown error occurred";
+
+        yield put(fetchDataFailure(errorMessage));
     }
 }
 
