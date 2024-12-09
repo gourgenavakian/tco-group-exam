@@ -3,8 +3,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLock, faUser} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import {useNavigate, Link, useLocation} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchDataRequest} from "../store/actions/profileDataActions";
 
 function Login(props) {
 

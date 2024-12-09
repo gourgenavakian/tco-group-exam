@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import RegistrationSuccess from "../components/RegistrationSuccess";
+import Select from "react-select";
 
 
 function RegisterUsers(props) {
@@ -13,6 +14,7 @@ function RegisterUsers(props) {
         username: "",
         url: "",
         telephone: "",
+        gender: "",
         referralsUsername: ""
     });
 
@@ -34,7 +36,7 @@ function RegisterUsers(props) {
             const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/registration`, {...user});
             console.log(response);
 
-            if (response.status === 200) setShowSuccess(true);
+            if (response.status === 201) setShowSuccess(true);
 
         }catch(err){
             console.log(err)
@@ -55,6 +57,23 @@ function RegisterUsers(props) {
                     <label className="col-sm-12 col-md-2 col-form-label">Full Name</label>
                     <div className="col-sm-12 col-md-10">
                         <input onChange={handleChange} value={user.fullName} name="fullName" className="form-control" type="text" required/>
+                    </div>
+                </div>
+                <div className="form-group row">
+                    <label className="col-sm-12 col-md-2 col-form-label">Gender</label>
+                    <div className="col-sm-12 col-md-10">
+                        <Select
+                            options={[
+                                { value: 'male', label: 'Male' },
+                                { value: 'female', label: 'Female' }
+                            ]}
+                            onChange={(option) => {
+                                setUser((prevInfo) => ({
+                                    ...prevInfo,
+                                    gender: option.value
+                                }));
+                            }}
+                        />
                     </div>
                 </div>
                 <div className="form-group row">

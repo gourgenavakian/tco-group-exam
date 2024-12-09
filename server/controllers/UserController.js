@@ -23,12 +23,8 @@ class UserController {
 
         try {
 
-            if (!user.email || !user.password || !user.username || !user.fullName || !user.gender) {
+            if ((!user.email || !user.password || !user.username || !user.fullName || !user.gender) && (user.role === 'admin' || user.role === 'manager')) {
                 return res.status(400).json({ message: 'Required fields are missing' });
-            }
-
-            if ((user.role === 'admin' || user.role === 'manager') && !user.password) {
-                return res.status(400).json({ message: 'Password is required for admin and manager roles' });
             }
 
             const existingUser = await User.findOne({ email: user.email });
@@ -36,7 +32,8 @@ class UserController {
                 return res.status(409).json({ message: 'User with this email already exists' });
             }
 
-            const hashedPassword = bcrypt.hashSync(user.password, 10);
+            let hashedPassword;
+            if (user.role === 'admin' || user.role === 'manager') hashedPassword = bcrypt.hashSync(user.password, 10);
 
 
             const newUserData = {
@@ -64,9 +61,18 @@ class UserController {
                 if (referredUser) {
 
                     newUserData.createdBy = referredUser._id;
-
-                    referredUser.managedUsers.push(newUserData._id);
+                    const newUser = await createUser(newUserData);
+                    referredUser.managedUsers.push(newUser._id);
                     await referredUser.save();
+
+                    return res.status(201).json({
+                        message: 'Registration successful',
+                        user: {
+                            id: newUser._id,
+                            email: newUser.email,
+                            role: newUser.role,
+                        },
+                    });
                 } else {
                     return res.status(404).json({ message: 'Referred manager not found' });
                 }
@@ -87,10 +93,10 @@ class UserController {
             console.error('Error during registration:', err);
             res.status(500).json({ message: 'Something went wrong', error: err.message });
         }
-    }
+    };
 
     static loginUser = async (req, res) => {
-        const { username, password, options } = req.body;
+        const { username, password, role } = req.body;
 
         try {
 
@@ -101,7 +107,7 @@ class UserController {
             }
 
 
-            const isPasswordValid = bcrypt.compareSync(password, user.password) && username === user.username;
+            const isPasswordValid = bcrypt.compareSync(password, user.password) && username === user.username && role === user.role;
             if (!isPasswordValid) {
                 return res.status(400).json({ message: 'Wrong email or password' });
             }
