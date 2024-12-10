@@ -2,6 +2,7 @@ const { User } = require('../config/adminDB');
 const {createUser} = require('../models/UserModel')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const {Types} = require('mongoose');
 
 
 class UserController {
@@ -53,7 +54,7 @@ class UserController {
                 managedUsers: user.managedUsers,
                 avatar: user.avatar || null,
                 role: user.role || 'user',
-                createdBy: user.createdBy || null,
+                createdBy: new Types.ObjectId(user.createdBy) || null,
                 createdAt: new Date().toISOString(),
                 isActive: user.isActive || null,
             };
@@ -75,6 +76,9 @@ class UserController {
                             role: newUser.role,
                         },
                     });
+                }else if (!user.referralsUsername && user.role !== 'admin') {
+                    const admin = await User.findOne({role: 'admin'});
+                    newUserData.createdBy = admin._id
                 } else {
                     return res.status(404).json({ message: 'Referred manager not found' });
                 }
