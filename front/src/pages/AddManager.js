@@ -5,11 +5,12 @@ import { Link } from "react-router-dom";
 import Wrapper from "../components/Wrapper";
 import axios from "axios";
 import Select from "react-select";
+import useLocalStorage from "../helpers/useLocalStorage";
 
 function PageAddManager() {
 
 
-    const userID = localStorage.getItem("userID");
+    const [, getUserID] = useLocalStorage("userID");
     const [dynamicHeader, setDynamicHeader] = useState('Manager');
 
     const [info, setInfo] = useState({
@@ -22,7 +23,8 @@ function PageAddManager() {
         country: "",
         city: "",
         role: "",
-        createdBy: userID,
+        createdBy: "",
+        referralsUsername: "",
         managedUsers: [],
         createdAt: new Date().toISOString(),
         isActive: true
@@ -39,7 +41,7 @@ function PageAddManager() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/registration`, {...info});
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/registration`, {...info, createdBy: getUserID()});
             console.log(response);
 
         }catch(err){
@@ -80,7 +82,7 @@ function PageAddManager() {
                                     {/* Email */}
                                     <div className="form-group">
                                         <label htmlFor="email">
-                                            <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
+                                            <FontAwesomeIcon icon={faEnvelope} className="mr-2"/>
                                             Email*
                                         </label>
                                         <input
@@ -98,7 +100,7 @@ function PageAddManager() {
                                     {/* Username */}
                                     <div className="form-group">
                                         <label htmlFor="username">
-                                            <FontAwesomeIcon icon={faUser} className="mr-2" />
+                                            <FontAwesomeIcon icon={faUser} className="mr-2"/>
                                             Username*
                                         </label>
                                         <input
@@ -113,10 +115,28 @@ function PageAddManager() {
                                         />
                                     </div>
 
+                                    {/*Referral's username*/}
+                                    {info.role === 'user' && <div className="form-group">
+                                        <label htmlFor="referralsUsername">
+                                            <FontAwesomeIcon icon={faUser} className="mr-2"/>
+                                            Referral's username*
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="referralsUsername"
+                                            className="form-control"
+                                            id="referralsUsername"
+                                            placeholder="Enter referral's username"
+                                            value={info.referralsUsername}
+                                            onChange={onChange}
+                                            required
+                                        />
+                                    </div>}
+
                                     {/* Password */}
                                     <div className="form-group">
                                         <label htmlFor="password">
-                                            <FontAwesomeIcon icon={faLock} className="mr-2" />
+                                            <FontAwesomeIcon icon={faLock} className="mr-2"/>
                                             Password*
                                         </label>
                                         <input
@@ -166,13 +186,13 @@ function PageAddManager() {
                                         />
                                     </div>
 
-                                     {/*Gender*/}
+                                    {/*Gender*/}
                                     <div className="form-group">
                                         <label htmlFor="gender">Gender</label>
                                         <Select
                                             options={[
-                                                { value: 'male', label: 'Male' },
-                                                { value: 'female', label: 'Female' }
+                                                {value: 'male', label: 'Male'},
+                                                {value: 'female', label: 'Female'}
                                             ]}
                                             onChange={(option) => {
                                                 setInfo((prevInfo) => ({
@@ -188,8 +208,8 @@ function PageAddManager() {
                                         <label htmlFor="role">Role*</label>
                                         <Select
                                             options={[
-                                                { value: 'manager', label: 'Manager' },
-                                                { value: 'user', label: 'User' }
+                                                {value: 'manager', label: 'Manager'},
+                                                {value: 'user', label: 'User'}
                                             ]}
                                             onChange={(option) => {
                                                 setInfo((prevInfo) => ({
@@ -229,9 +249,9 @@ function PageAddManager() {
                                         />
                                     </div>
 
-                                    <hr className="my-4" />
+                                    <hr className="my-4"/>
                                     <button type="submit" className="btn btn-success btn-block">
-                                        <FontAwesomeIcon icon={faCheck} className="mr-2" />
+                                        <FontAwesomeIcon icon={faCheck} className="mr-2"/>
                                         Save User
                                     </button>
                                 </form>

@@ -11,8 +11,7 @@ function Login() {
     const location = useLocation();
 
 
-    // const [, setToken] = useLocalStorage("token");
-    // const [, setUserID] = useLocalStorage("user_id");
+
     const [login, setLogin] = useState({
         username: "",
         password: "",
@@ -31,6 +30,9 @@ function Login() {
 
     };
 
+    const [token, getToken, setToken] = useLocalStorage("token");
+    const [userID, getUserID, setUserID] = useLocalStorage("userID");
+
     const handleSubmit = async e => {
         e.preventDefault();
         if (!login.role || !login.password || !login.username) {
@@ -44,11 +46,10 @@ function Login() {
                 const token = response.data.token;
                 const user = response.data.user;
 
-                // setToken(token);
-                // setUserID(user._id);
-
-                localStorage.setItem("token", token);
-                localStorage.setItem("userId", JSON.stringify(user._id));
+                setToken(token);
+                setUserID(user._id);
+            // localStorage.setItem("token", token);
+            // localStorage.setItem("userID", user._id);
 
                 setMessage('');
 

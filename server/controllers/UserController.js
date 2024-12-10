@@ -2,6 +2,7 @@ const { User } = require('../config/adminDB');
 const {createUser} = require('../models/UserModel')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const {Types} = require("mongoose");
 
 
 class UserController {
@@ -53,7 +54,7 @@ class UserController {
                 managedUsers: user.managedUsers,
                 avatar: user.avatar || null,
                 role: user.role || 'user',
-                createdBy: user.createdBy || null,
+                createdBy: new Types.ObjectId(user.createdBy) || null,
                 createdAt: new Date().toISOString(),
                 isActive: user.isActive || null,
             };
@@ -80,6 +81,8 @@ class UserController {
                 }
             }
 
+            const admin = await User.findOne({role: 'admin'});
+            newUserData.createdBy = admin._id;
             const newUser = await createUser(newUserData);
 
             res.status(201).json({
