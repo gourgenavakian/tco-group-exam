@@ -2,11 +2,14 @@ import React, {useEffect, useState} from 'react';
 import Select from 'react-select';
 import {Link} from 'react-router-dom';
 import { Link as ScrollLink } from 'react-scroll';
-import axios from 'axios';
 import RegisterSuccess from "../components/RegistrationSuccess";
+import {useDispatch, useSelector} from "react-redux";
+import {registerUserRequest} from "../store/actions/registerUsersActions";
 
 function Registration(props) {
 
+    const {status, error} = useSelector(state => state.registerUsers);
+    const dispatch = useDispatch();
     const [step, setStep] = useState(1);
     const [agree, setAgree] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -69,17 +72,10 @@ function Registration(props) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try{
-            const req = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/admin/registration`, {...info});
+        dispatch(registerUserRequest(info));
 
-            console.log('request', req);
-
-            if (req.status === 201) {
-                setShowSuccess(true);
-            }
-
-        }catch(err){
-            console.log(err);
+        if (status === 'success') {
+            return setShowSuccess(true);
         }
 
     };

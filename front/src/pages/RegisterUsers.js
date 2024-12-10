@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import axios from "axios";
 import RegistrationSuccess from "../components/RegistrationSuccess";
 import Select from "react-select";
@@ -15,7 +15,6 @@ function RegisterUsers(props) {
         url: "",
         telephone: "",
         gender: "",
-        referralsUsername: ""
     });
 
     const handleChange = e => {
@@ -104,12 +103,6 @@ function RegisterUsers(props) {
                     <label className="col-sm-12 col-md-2 col-form-label">Telephone</label>
                     <div className="col-sm-12 col-md-10">
                         <input onChange={handleChange} value={user.telephone} name="telephone" className="form-control" type="tel" required/>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <label className="col-sm-12 col-md-2 col-form-label">Referral's username</label>
-                    <div className="col-sm-12 col-md-10">
-                        <input onChange={handleChange} value={user.referralsUsername} name="referralsUsername" className="form-control" type="text" required/>
                     </div>
                 </div>
                 <div className="form-group row">

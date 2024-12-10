@@ -151,9 +151,9 @@ function Header(props) {
                             <span className="user-name">{data.fullName}</span>
                         </Link>
                         { showDropDownMenu && <div className="dropdown-menu dropdown-menu-right dropdown-menu-icon-list" style={{display: 'block'}}>
-                            <Link className="dropdown-item" to="/profile"><i
+                            <Link className="dropdown-item" to={`/home/${data.username}/profile`}><i
                                 className="dw dw-user1"></i> Profile</Link>
-                            <Link className="dropdown-item" to="/profile"><i
+                            <Link className="dropdown-item" to={`/home/${data.username}/profile`}><i
                                 className="dw dw-settings2"></i> Setting</Link>
                             <Link className="dropdown-item" to="/faq"><i className="dw dw-help"></i> Help</Link>
                             <Link className="dropdown-item" to="/login" onClick={() => localStorage.removeItem('token')}> Log

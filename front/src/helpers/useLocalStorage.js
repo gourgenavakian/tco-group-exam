@@ -16,8 +16,13 @@ export default function useLocalStorage(key, initialState) {
 
     const _saveValue = (value) => {
         try {
-            const valueToStore =
-                value instanceof Function ? value(data) : value;
+
+            if (typeof value === 'function') {
+                console.warn('Cannot store functions in localStorage');
+                return;
+            }
+
+            const valueToStore = value instanceof Function ? value(data) : value;
             setData(valueToStore);
             localStorage.setItem(key, JSON.stringify(valueToStore));
         } catch (error) {
@@ -34,8 +39,5 @@ export default function useLocalStorage(key, initialState) {
         }
     };
 
-    return [data, _saveValue, _removeValue];
+    return [data, _readValue,  _saveValue, _removeValue];
 }
-
-
-

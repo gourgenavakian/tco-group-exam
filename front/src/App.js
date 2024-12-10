@@ -16,6 +16,7 @@ function App(props) {
                 {/* Public Routes */}
                 <Route path="/registration" element={<Registration />} />
                 <Route path="/admin/registration" element={<Registration />} />
+                <Route path="/" element={<Login />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/admin/login" element={<Login />} />
                 <Route path="/users/registration" element={<RegisterUsers />} />

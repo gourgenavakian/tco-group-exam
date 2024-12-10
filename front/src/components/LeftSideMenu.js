@@ -17,7 +17,7 @@ function LeftSideMenu(props) {
     return (
         <div className="left-side-bar">
             <div className="brand-logo">
-                <Link to="/dash">
+                <Link to={`/home/${data.username}`}>
                     <img src="/images/deskapp-logo.svg" alt="" className="dark-logo"/>
                     <img src="/images/deskapp-logo-white.svg" alt="" className="light-logo"/>
                 </Link>
@@ -29,21 +29,21 @@ function LeftSideMenu(props) {
                 <div className="sidebar-menu">
                     <ul id="accordion-menu">
                         <li className="dropdown">
-                            <Link to="/" className="dropdown-toggle">
+                            <Link to={`/home/${data.username}`} className="dropdown-toggle">
                                     <span className="micon dw dw-house-1"><FontAwesomeIcon
                                         icon={faHouse}/><span> </span></span><span className="mtext">Home</span>
                             </Link>
                         </li>
 
                         <li>
-                            <Link to="/chat" className="dropdown-toggle no-arrow">
+                            <Link to={`/home/${data.username}/chat`} className="dropdown-toggle no-arrow">
                                 <span className="micon dw dw-chat3"><FontAwesomeIcon icon={faMessage}/></span><span
                                 className="mtext">Chat</span>
                             </Link>
                         </li>
 
                         <li>
-                            <Link to="/profile" className="dropdown-toggle no-arrow">
+                            <Link to={`/home/${data.username}/profile`} className="dropdown-toggle no-arrow">
                                     <span className="micon dw dw-invoice"><FontAwesomeIcon
                                         icon={faDesktopAlt}/></span><span className="mtext">Profile</span>
                             </Link>
