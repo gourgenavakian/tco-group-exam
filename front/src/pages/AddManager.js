@@ -3,13 +3,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEnvelope, faLock, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Wrapper from "../components/Wrapper";
-import axios from "axios";
 import Select from "react-select";
 import useLocalStorage from "../helpers/useLocalStorage";
+import {useDispatch} from "react-redux";
+import {registerUserRequest} from "../store/actions/registerUsersActions";
+
 
 function PageAddManager() {
 
 
+    const dispatch = useDispatch();
     const [, getUserID] = useLocalStorage("userID");
     const [dynamicHeader, setDynamicHeader] = useState('Manager');
 
@@ -39,14 +42,13 @@ function PageAddManager() {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/registration`, {...info, createdBy: getUserID()});
-            console.log(response);
 
-        }catch(err){
-            console.log(err);
-        }
+        e.preventDefault();
+        setInfo((prev) => ({
+            ...prev,
+            createdBy: getUserID(),
+        }));
+        dispatch(registerUserRequest(info));
 
     };
 
