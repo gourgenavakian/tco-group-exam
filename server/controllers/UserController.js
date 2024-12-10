@@ -54,16 +54,17 @@ class UserController {
                 managedUsers: user.managedUsers,
                 avatar: user.avatar || null,
                 role: user.role || 'user',
-                createdBy: new Types.ObjectId(user.createdBy) || null,
+                createdBy: user.createdBy || null,
                 createdAt: new Date().toISOString(),
                 isActive: user.isActive || null,
             };
 
-            if (user.referralsUsername) {
+            if (user.referralsUsername && user.role !== 'admin') {
                 const referredUser = await User.findOne({ username: user.referralsUsername, role: 'manager' });
                 if (referredUser) {
 
-                    newUserData.createdBy = referredUser._id;
+                    console.log('referredUser', referredUser);
+                    newUserData.createdBy = new Types.ObjectId(referredUser._id);
                     const newUser = await createUser(newUserData);
                     referredUser.managedUsers.push(newUser._id);
                     await referredUser.save();
@@ -81,8 +82,6 @@ class UserController {
                 }
             }
 
-            const admin = await User.findOne({role: 'admin'});
-            newUserData.createdBy = admin._id;
             const newUser = await createUser(newUserData);
 
             res.status(201).json({

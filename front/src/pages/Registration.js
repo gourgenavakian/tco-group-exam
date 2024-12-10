@@ -455,7 +455,13 @@ function Registration(props) {
                 </div>
             </>
         );
-    }
+    };
+
+    useEffect(() => {
+        if (status === 'success') {
+            return setShowSuccess(true);
+        }
+    }, [status]);
 
 
     return (
