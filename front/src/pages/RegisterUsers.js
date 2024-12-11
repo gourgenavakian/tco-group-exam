@@ -15,6 +15,7 @@ function RegisterUsers(props) {
         url: "",
         telephone: "",
         gender: "",
+        count: 1,
         role: "user"
     });
 
@@ -53,12 +54,14 @@ function RegisterUsers(props) {
 
             </div>
             <form onSubmit={handleSubmit}>
+
                 <div className="form-group row">
                     <label className="col-sm-12 col-md-2 col-form-label">Full Name</label>
                     <div className="col-sm-12 col-md-10">
                         <input onChange={handleChange} value={user.fullName} name="fullName" className="form-control" type="text" required/>
                     </div>
                 </div>
+
                 <div className="form-group row">
                     <label className="col-sm-12 col-md-2 col-form-label">Gender</label>
                     <div className="col-sm-12 col-md-10">
@@ -76,36 +79,49 @@ function RegisterUsers(props) {
                         />
                     </div>
                 </div>
+
                 <div className="form-group row">
                     <label className="col-sm-12 col-md-2 col-form-label">Passport ID</label>
                     <div className="col-sm-12 col-md-10">
                         <input onChange={handleChange} value={user.passportID} name="passportID" className="form-control" type="text" required/>
                     </div>
                 </div>
+
                 <div className="form-group row">
                     <label className="col-sm-12 col-md-2 col-form-label">username</label>
                     <div className="col-sm-12 col-md-10">
                         <input onChange={handleChange} value={user.username} name="username" className="form-control" type="text" required/>
                     </div>
                 </div>
+
                 <div className="form-group row">
                     <label className="col-sm-12 col-md-2 col-form-label">Email</label>
                     <div className="col-sm-12 col-md-10">
                         <input onChange={handleChange} value={user.email} name="email" className="form-control" type="email" required/>
                     </div>
                 </div>
+
                 <div className="form-group row">
                     <label className="col-sm-12 col-md-2 col-form-label">URL</label>
                     <div className="col-sm-12 col-md-10">
                         <input onChange={handleChange} value={user.url} name="url" className="form-control" type="url" required/>
                     </div>
                 </div>
+
                 <div className="form-group row">
                     <label className="col-sm-12 col-md-2 col-form-label">Telephone</label>
                     <div className="col-sm-12 col-md-10">
                         <input onChange={handleChange} value={user.telephone} name="telephone" className="form-control" type="tel" required/>
                     </div>
                 </div>
+
+                <div className="form-group row">
+                    <label className="col-sm-12 col-md-2 col-form-label">Count</label>
+                    <div className="col-sm-12 col-md-10">
+                        <input onChange={handleChange} value={user.count || 1} name="count" className="form-control" type="number" required/>
+                    </div>
+                </div>
+
                 <div className="form-group row">
                     <div className="col-sm-12 col-md-10">
                         <input className="btn btn-primary btn-sm scroll-click" value="Submit" type="submit"/>

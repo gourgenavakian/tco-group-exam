@@ -12,7 +12,7 @@ const start = require('./config/connect');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-
+const productsRouter = require('./routes/product');
 
 
 
@@ -42,6 +42,7 @@ app.use(cors({
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/products', productsRouter);
 // app.use('/upload', uploadRouter);
 
 

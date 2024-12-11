@@ -10,6 +10,8 @@ import RegisterUsers from "./pages/RegisterUsers";
 import Error404 from "./pages/Error404";
 import AllUsersList from "./pages/AllUsersList";
 import ContactDirectory from "./pages/ContactDirectory";
+import PriceList from "./pages/PriceList";
+import ProductCreateForm from "./pages/ProductCreateForm";
 
 function App(props) {
     return (
@@ -22,6 +24,7 @@ function App(props) {
                 <Route path="/login" element={<Login />} />
                 <Route path="/admin/login" element={<Login />} />
                 <Route path="/users/registration" element={<RegisterUsers />} />
+                <Route path="/users/get-product" element={<PriceList />} />
 
                 {/* Protected Routes */}
                 <Route path="/home/:username" element={<Dashboard />} />
@@ -30,6 +33,7 @@ function App(props) {
                 <Route path="/home/:username/profile" element={<Profile />} />
                 <Route path="/home/:username/users" element={<AllUsersList />} />
                 <Route path="/home/:username/contact-directory" element={<ContactDirectory />} />
+                <Route path="/home/:username/add-internet-package" element={<ProductCreateForm />} />
 
                 {/* Catch-All Route */}
                 <Route path="*" element={<Error404/>} />

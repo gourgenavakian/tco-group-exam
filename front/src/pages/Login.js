@@ -201,7 +201,7 @@ function Login() {
                                                             </Link>
                                                             :
                                                             <Link className="btn btn-outline-primary btn-lg btn-block"
-                                                                  to="/users/registration">
+                                                                  to="/users/get-product">
                                                                 Join
                                                             </Link>
                                                     }

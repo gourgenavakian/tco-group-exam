@@ -142,6 +142,27 @@ p {
 	padding-top: 15px;
 }
 
+
+
+.pricing-points ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.pricing-points li {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5px 0;
+}
+
+.check-icon {
+	margin-left: 10px;
+	color: green;
+}
+
+
 .mx-w-150{max-width: 150px;}
 .mx-h-300{max-height: 300px;}
 .mx-h-350{max-height: 350px;}
