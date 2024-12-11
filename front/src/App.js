@@ -8,6 +8,8 @@ import AddManager from "./pages/AddManager";
 import Profile from "./pages/Profile";
 import RegisterUsers from "./pages/RegisterUsers";
 import Error404 from "./pages/Error404";
+import AllUsersList from "./pages/AllUsersList";
+import ContactDirectory from "./pages/ContactDirectory";
 
 function App(props) {
     return (
@@ -26,6 +28,8 @@ function App(props) {
                 <Route path="/home/:username/chat" element={<Chat />} />
                 <Route path="/home/:username/add-manager" element={<AddManager />} />
                 <Route path="/home/:username/profile" element={<Profile />} />
+                <Route path="/home/:username/users" element={<AllUsersList />} />
+                <Route path="/home/:username/contact-directory" element={<ContactDirectory />} />
 
                 {/* Catch-All Route */}
                 <Route path="*" element={<Error404/>} />

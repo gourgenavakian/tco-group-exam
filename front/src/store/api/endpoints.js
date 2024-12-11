@@ -6,6 +6,8 @@ export const ENDPOINTS = {
 
     POST_PROFILE_DATA: `${BASE_URL}/users/registration`,
 
+    GET_USERS_DATA: `${BASE_URL}/users`,
+
 };
 
 

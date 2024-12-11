@@ -11,6 +11,10 @@ class ApiService {
         return apiClient.post(ENDPOINTS.POST_PROFILE_DATA, data);
     }
 
+    static getAllUsersData() {
+        return apiClient.get(ENDPOINTS.GET_USERS_DATA)
+    }
+
 }
 
 export default ApiService;

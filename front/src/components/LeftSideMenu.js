@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faAdd, faDesktopAlt, faHouse, faMessage} from "@fortawesome/free-solid-svg-icons";
+import {faAdd, faDesktopAlt, faHouse, faMessage, faUsers, faContactBook} from "@fortawesome/free-solid-svg-icons";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchDataRequest} from "../store/actions/profileDataActions";
@@ -53,6 +53,20 @@ function LeftSideMenu(props) {
                             <Link to={`/home/${data.username}/add-manager`} className="dropdown-toggle no-arrow">
                                 <span className="micon dw dw-invoice"><FontAwesomeIcon icon={faAdd}/></span><span
                                 className="mtext">Add Manager</span>
+                            </Link>
+                        </li>
+
+                        <li>
+                            <Link to={`/home/${data.username}/users`} className="dropdown-toggle no-arrow">
+                                <span className="micon dw dw-invoice"><FontAwesomeIcon icon={faUsers}/></span><span
+                                className="mtext">Users</span>
+                            </Link>
+                        </li>
+
+                        <li>
+                            <Link to={`/home/${data.username}/contact-directory`} className="dropdown-toggle no-arrow">
+                                <span className="micon dw dw-invoice"><FontAwesomeIcon icon={faContactBook}/></span><span
+                                className="mtext">Contact Directory</span>
                             </Link>
                         </li>
 
