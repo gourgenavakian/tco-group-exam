@@ -15,6 +15,7 @@ function RegisterUsers(props) {
         url: "",
         telephone: "",
         gender: "",
+        role: "user"
     });
 
     const handleChange = e => {

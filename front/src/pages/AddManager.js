@@ -26,7 +26,7 @@ function PageAddManager() {
         country: "",
         city: "",
         role: "",
-        createdBy: "",
+        createdBy: getUserID(),
         referralsUsername: "",
         managedUsers: [],
         createdAt: new Date().toISOString(),
@@ -131,7 +131,6 @@ function PageAddManager() {
                                             placeholder="Enter referral's username"
                                             value={info.referralsUsername}
                                             onChange={onChange}
-                                            required
                                         />
                                     </div>}
 
@@ -171,7 +170,7 @@ function PageAddManager() {
                                         />
                                     </div>
 
-
+                                    {/* Passport ID */}
                                     <div className="form-group">
                                         <label htmlFor="passportID">
                                             Passport ID*
@@ -221,7 +220,6 @@ function PageAddManager() {
                                                 setDynamicHeader(option.label)
                                             }}/>
                                     </div>
-
 
                                     {/* Country */}
                                     <div className="form-group">

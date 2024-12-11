@@ -1,13 +1,13 @@
 const { User } = require('../config/adminDB');
-const {createUser} = require('../models/UserModel')
+const {createUser, createReferredUser} = require('../models/UserModel')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const {Types} = require("mongoose");
+
 
 
 class UserController {
 
-    static getUser = async (req, res) => {
+    static getUsers = async (req, res) => {
         try {
 
             const data = await User.find();
@@ -24,7 +24,7 @@ class UserController {
 
         try {
 
-            if ((!user.email || !user.password || !user.username || !user.fullName || !user.gender) && (user.role === 'admin' || user.role === 'manager')) {
+            if ((!user.email || !user.password || !user.username || !user.fullName || !user.gender) && user.role !== 'user') {
                 return res.status(400).json({ message: 'Required fields are missing' });
             }
 
@@ -33,9 +33,8 @@ class UserController {
                 return res.status(409).json({ message: 'User with this email already exists' });
             }
 
-            let hashedPassword;
-            if (user.role === 'admin' || user.role === 'manager') hashedPassword = bcrypt.hashSync(user.password, 10);
 
+            const hashedPassword = user.password ? await bcrypt.hash(user.password, 10) : null;
 
             const newUserData = {
                 email: user.email,
@@ -51,46 +50,29 @@ class UserController {
                     expirationDate: user.card?.expirationDate || null,
                     cvv: user.card?.cvv || null,
                 },
-                managedUsers: user.managedUsers,
+                managedUsers: user.role === 'manager' ? [] : undefined,
                 avatar: user.avatar || null,
                 role: user.role || 'user',
-                createdBy: user.createdBy || null,
+                createdBy: null,
                 createdAt: new Date().toISOString(),
-                isActive: user.isActive || null,
+                isActive: user.isActive || false,
             };
 
-            if (user.referralsUsername && user.role !== 'admin') {
-                const referredUser = await User.findOne({ username: user.referralsUsername, role: 'manager' });
-                if (referredUser) {
+            let createdUser;
 
-                    console.log('referredUser', referredUser);
-                    newUserData.createdBy = new Types.ObjectId(referredUser._id);
-                    const newUser = await createUser(newUserData);
-                    referredUser.managedUsers.push(newUser._id);
-                    await referredUser.save();
-
-                    return res.status(201).json({
-                        message: 'Registration successful',
-                        user: {
-                            id: newUser._id,
-                            email: newUser.email,
-                            role: newUser.role,
-                        },
-                    });
-                } else {
-                    return res.status(404).json({ message: 'Referred manager not found' });
-                }
+            if (user.role !== 'admin') {
+                createdUser = await createReferredUser(newUserData, user.referralsUsername, user.createdBy);
+            } else {
+                createdUser = await createUser(newUserData);
             }
 
-            const newUser = await createUser(newUserData);
+            if (!createdUser) {
+                return res.status(500).json({ message: 'Error during user creation' });
+            }
 
             res.status(201).json({
                 message: 'Registration successful',
-                user: {
-                    id: newUser._id,
-                    email: newUser.email,
-                    role: newUser.role,
-                },
+                user: { id: createdUser._id, email: createdUser.email, role: createdUser.role },
             });
             console.log('Registration successful');
         } catch (err) {

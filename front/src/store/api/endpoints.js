@@ -3,7 +3,8 @@ export const BASE_URL = `${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env
 export const ENDPOINTS = {
 
     GET_PROFILE_DATA: `${BASE_URL}/users/profile`,
-    SET_PROFILE_DATA: `${BASE_URL}/users/profile`,
+
+    POST_PROFILE_DATA: `${BASE_URL}/users/registration`,
 
 };
 
