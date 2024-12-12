@@ -4,7 +4,7 @@ import Registration from "./pages/Registration";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat";
-import AddManager from "./pages/AddManager";
+import AddUser from "./pages/AddUser";
 import Profile from "./pages/Profile";
 import RegisterUsers from "./pages/RegisterUsers";
 import Error404 from "./pages/Error404";
@@ -29,7 +29,7 @@ function App(props) {
                 {/* Protected Routes */}
                 <Route path="/home/:username" element={<Dashboard />} />
                 <Route path="/home/:username/chat" element={<Chat />} />
-                <Route path="/home/:username/add-manager" element={<AddManager />} />
+                <Route path="/home/:username/add-user" element={<AddUser />} />
                 <Route path="/home/:username/profile" element={<Profile />} />
                 <Route path="/home/:username/users" element={<AllUsersList />} />
                 <Route path="/home/:username/contact-directory" element={<ContactDirectory />} />

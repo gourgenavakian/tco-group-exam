@@ -163,6 +163,17 @@ p {
 }
 
 
+.card-box {
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+.height-100-p {
+	height: 500px; /* Можете установить нужную высоту */
+	overflow: hidden; /* Чтобы избежать прокрутки */
+}
+
+
 .mx-w-150{max-width: 150px;}
 .mx-h-300{max-height: 300px;}
 .mx-h-350{max-height: 350px;}

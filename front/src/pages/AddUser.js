@@ -9,7 +9,7 @@ import {useDispatch} from "react-redux";
 import {registerUserRequest} from "../store/actions/registerUsersActions";
 
 
-function PageAddManager() {
+function PageAddUser() {
 
 
     const dispatch = useDispatch();
@@ -264,4 +264,4 @@ function PageAddManager() {
     );
 }
 
-export default PageAddManager;
+export default PageAddUser;

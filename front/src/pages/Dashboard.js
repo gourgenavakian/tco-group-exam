@@ -653,13 +653,10 @@ function Dashboard(props) {
                     </div>
                     <div className="row">
                         <div className="col-xl-8 mb-30">
-                            <div className="card-box height-100-p pd-20">
-                                <h2 className="h4 mb-20">Activity</h2>
-                                {/*<div id="chart5">*/}
+                            <div className="card-box height-100-p pd-20" style={{maxHeight: '100%', padding: '20px', height: '500px'}}>
 
-                                {/*<LatestHits/>*/}
                                 <Chart1/>
-                                {/*</div>*/}
+
                             </div>
                         </div>
                         <div className="col-xl-4 mb-30">
