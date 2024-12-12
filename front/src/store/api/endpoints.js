@@ -8,6 +8,8 @@ export const ENDPOINTS = {
 
     GET_USERS_DATA: `${BASE_URL}/users`,
 
+    GET_PRODUCTS_DATA: `${BASE_URL}/products`,
+
 };
 
 

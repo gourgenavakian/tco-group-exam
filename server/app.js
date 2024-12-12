@@ -12,7 +12,7 @@ const start = require('./config/connect');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const productsRouter = require('./routes/product');
+const productsRouter = require('./routes/products');
 
 
 

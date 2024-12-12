@@ -15,6 +15,10 @@ class ApiService {
         return apiClient.get(ENDPOINTS.GET_USERS_DATA)
     }
 
+    static getProductsData() {
+        return apiClient.get(ENDPOINTS.GET_PRODUCTS_DATA);
+    }
+
 }
 
 export default ApiService;
