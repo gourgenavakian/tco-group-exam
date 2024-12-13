@@ -1,9 +1,9 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import { addNotification } from '../actions/notificationActions';
-import {REGISTER_USER_REQUEST} from "../actions/registerUsersActions";
+import {REGISTER_USER_SUCCESS} from "../actions/registerUsersActions";
 
 function* handleNewUserRegistration(action) {
-    const user = action.payload;
+    const user = action.payload.user;
     console.log(user, 'saga');
 
     if (user && typeof user === 'object') {
@@ -15,5 +15,5 @@ function* handleNewUserRegistration(action) {
 }
 
 export function* watchNotifications() {
-    yield takeEvery(REGISTER_USER_REQUEST, handleNewUserRegistration);
+    yield takeEvery(REGISTER_USER_SUCCESS, handleNewUserRegistration);
 }

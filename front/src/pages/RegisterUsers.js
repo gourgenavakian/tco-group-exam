@@ -11,6 +11,7 @@ function RegisterUsers() {
 
     const dispatch = useDispatch();
     const {status, error} = useSelector(state => state.registerUsers);
+    console.log(status);
     const location = useLocation();
     const [showSuccess, setShowSuccess] = useState(false);
     const [user, setUser] = useState({

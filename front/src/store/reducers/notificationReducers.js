@@ -1,4 +1,8 @@
-import { ADD_NOTIFICATION, MARK_ALL_AS_READ } from '../actions/notificationActions';
+import {
+    ADD_NOTIFICATION,
+    MARK_ALL_AS_READ,
+    CLEAR_NOTIFICATION,
+    MARK_NOTIFICATION_AS_SHOWN } from '../actions/notificationActions';
 
 const loadState = () => {
     try {
@@ -27,7 +31,7 @@ export const notificationReducer = (state = initialState, action) => {
         case ADD_NOTIFICATION:
             newState = {
                 ...state,
-                notifications: [...state.notifications, action.payload],
+                notifications: [ action.payload, ...state.notifications ],
                 unreadCount: state.unreadCount + 1,
             };
             saveState(newState);
@@ -43,6 +47,20 @@ export const notificationReducer = (state = initialState, action) => {
             };
             saveState(newState);
             return newState;
+        case CLEAR_NOTIFICATION:
+            return {
+                ...state,
+                notifications: [],
+            };
+        case "MARK_NOTIFICATION_AS_SHOWN":
+            return {
+                ...state,
+                notifications: state.notifications.map((notification) =>
+                    notification.id === action.payload
+                        ? { ...notification, isToastShown: true }
+                        : notification
+                ),
+            };
         default:
             return state;
     }

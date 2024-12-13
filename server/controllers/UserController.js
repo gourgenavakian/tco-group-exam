@@ -75,7 +75,7 @@ class UserController {
 
             res.status(201).json({
                 message: 'Registration successful',
-                user: { id: createdUser._id, email: createdUser.email, role: createdUser.role },
+                user: createdUser,
             });
             console.log('Registration successful');
         } catch (err) {

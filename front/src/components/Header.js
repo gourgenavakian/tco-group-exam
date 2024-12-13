@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchDataRequest } from "../store/actions/profileDataActions";
 import {fetchAllDataRequest} from "../store/actions/allUsersDataActions";
 import {markAllAsRead} from "../store/actions/notificationActions";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Header() {
 
@@ -22,6 +24,27 @@ function Header() {
         dispatch(fetchAllDataRequest());
     }, [dispatch, notifications]);
 
+    useEffect(() => {
+        if (notifications.length > 0) {
+
+            const lastNotification = notifications
+                .filter((notification) => !notification.isToastShown)
+                .pop();
+
+            if (lastNotification) {
+                toast.info(lastNotification.message, {
+                    autoClose: 3000,
+                });
+
+
+                dispatch({
+                    type: "MARK_NOTIFICATION_AS_SHOWN",
+                    payload: lastNotification.id,
+                });
+            }
+        }
+    }, [notifications, dispatch]);
+
     const handleMarkAsRead = () => {
         setShowNotification(!showNotification);
         setTimeout(() => {
@@ -36,6 +59,7 @@ function Header() {
                 <div className="menu-icon dw dw-menu"></div>
                 <div className="search-toggle-icon dw dw-search2" data-toggle="header_search"></div>
                 <div className="header-search">
+                    <ToastContainer/>
                     <form>
                         <div className="form-group mb-0">
                             <FontAwesomeIcon className='dw dw-search2 search-icon' icon={faSearch}/>
@@ -67,25 +91,16 @@ function Header() {
                               data-toggle="dropdown" onClick={handleMarkAsRead}>
 
                             <FontAwesomeIcon className="icon-copy dw dw-notification" icon={faBell}/>
-                            <span className="badge notification-active" style={{width: '15px', height: '15px'}}>({unreadCount}</span>
-
+                            {unreadCount !==0 &&
+                                <span className="badge notification-active"
+                                   style={{width: '15px', height: '15px'}}>{unreadCount}</span>
+                            }
 
                         </Link>
                         {showNotification && <div className="dropdown-menu dropdown-menu-right"
                                                   style={{display: 'block', overflowY: 'auto'}}>
                             <div className="notification-list mx-h-350 customscroll">
                                 <ul>
-                                    {/*{allData.map(item => (*/}
-                                    {/*    <li>*/}
-                                    {/*        <Link to="#">*/}
-                                    {/*            <img src={item?.avatar || '/images/avatar.avif'} alt=""/>*/}
-                                    {/*            <h3>{item.fullName}</h3>*/}
-                                    {/*            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,*/}
-                                    {/*                sed...</p>*/}
-                                    {/*        </Link>*/}
-                                    {/*    </li>*/}
-                                    {/*))*/}
-                                    {/*}*/}
                                     {notifications.map((notification) => (
                                     <li key={notification.id} style={{ fontWeight: notification.read ? 'normal' : 'bold' }}>
                                         <Link to="#">

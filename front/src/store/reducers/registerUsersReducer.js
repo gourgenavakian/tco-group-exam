@@ -32,10 +32,10 @@ const registerUsersReducer = (state = initialState, action) => {
         default:
             return {
                 ...state,
-                status: 'idle',
-                error: null
             };
     }
 };
 
 export default registerUsersReducer;
+
+

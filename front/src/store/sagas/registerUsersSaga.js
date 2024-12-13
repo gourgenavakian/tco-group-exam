@@ -21,3 +21,5 @@ function* registerUserSaga(action) {
 export function* watchRegisterUser() {
     yield takeLatest(REGISTER_USER_REQUEST, registerUserSaga);
 }
+
+
