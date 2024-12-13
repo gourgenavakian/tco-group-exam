@@ -5,14 +5,16 @@ import { Link } from "react-router-dom";
 import Wrapper from "../components/Wrapper";
 import Select from "react-select";
 import useLocalStorage from "../helpers/useLocalStorage";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {registerUserRequest} from "../store/actions/registerUsersActions";
+import {fetchProductsDataRequest} from "../store/actions/productsDataActions";
 
 
 function PageAddUser() {
 
 
     const dispatch = useDispatch();
+    const {productsData, error, loading} = useSelector(state => state.productsData);
     const [, getUserID] = useLocalStorage("userID");
     const [dynamicHeader, setDynamicHeader] = useState('User');
 
@@ -29,6 +31,8 @@ function PageAddUser() {
         createdBy: getUserID(),
         referralsUsername: "",
         managedUsers: [],
+        productId: '',
+        quantity: 1,
         createdAt: new Date().toISOString(),
         isActive: true
     });
@@ -51,6 +55,12 @@ function PageAddUser() {
         dispatch(registerUserRequest(info));
 
     };
+
+    useEffect(() => {
+        dispatch(fetchProductsDataRequest());
+    }, [dispatch]);
+
+
 
     return (
         <Wrapper>
@@ -223,6 +233,50 @@ function PageAddUser() {
                                                 setDynamicHeader(option.label)
                                             }}/>
                                     </div>
+
+                                    {info.role === 'user' && (
+
+                                        <>
+                                            {/*Select Product*/}
+                                            <div className="form-group">
+                                                <label htmlFor="role">Product*</label>
+                                                <Select
+                                                    options={
+                                                        productsData.map((item) => ({
+
+                                                            value: item._id,
+                                                            label: item.name
+
+                                                        }))
+                                                    }
+                                                    onChange={(option) => {
+                                                        setInfo((prevInfo) => ({
+                                                            ...prevInfo,
+                                                            productId: option.value
+                                                        }));
+                                                    }}/>
+                                            </div>
+
+                                            {/*Quantity*/}
+                                            <div className="form-group">
+                                                <label htmlFor="quantity">
+                                                    Quantity*
+                                                </label>
+                                                <input
+                                                    type="number"
+                                                    name="quantity"
+                                                    className="form-control"
+                                                    id="quantity"
+                                                    value={info.quantity || 1}
+                                                    onChange={onChange}
+                                                    required
+                                                    min="1"
+                                                />
+                                            </div>
+                                        </>
+
+                                    )}
+
 
                                     {/* Country */}
                                     <div className="form-group">

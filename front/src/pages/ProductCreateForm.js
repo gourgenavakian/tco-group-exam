@@ -82,10 +82,10 @@ const ProductCreateForm = () => {
                                         <label htmlFor="status">Package Status*</label>
                                         <Select
                                             options={[
-                                                { value: 'primary', label: 'Primary' },
-                                                { value: 'secondary', label: 'Secondary' },
-                                                { value: 'third', label: 'Third' },
-                                                { value: 'inactive', label: 'Inactive' }
+                                                {value: 'primary', label: 'Primary'},
+                                                {value: 'secondary', label: 'Secondary'},
+                                                {value: 'third', label: 'Third'},
+                                                {value: 'inactive', label: 'Inactive'}
                                             ]}
                                             onChange={(option) => {
                                                 setProductInfo((prevInfo) => ({
