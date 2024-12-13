@@ -1,11 +1,17 @@
-import React, {useState} from 'react';
-import axios from "axios";
+import React, {useEffect, useState} from 'react';
 import RegistrationSuccess from "../components/RegistrationSuccess";
 import Select from "react-select";
+import querystring from "querystring";
+import {useLocation} from "react-router-dom";
+import {registerUserRequest} from "../store/actions/registerUsersActions";
+import {useDispatch, useSelector} from "react-redux";
+
+function RegisterUsers() {
 
 
-function RegisterUsers(props) {
-
+    const dispatch = useDispatch();
+    const {status, error} = useSelector(state => state.registerUsers);
+    const location = useLocation();
     const [showSuccess, setShowSuccess] = useState(false);
     const [user, setUser] = useState({
         fullName: "",
@@ -15,9 +21,25 @@ function RegisterUsers(props) {
         url: "",
         telephone: "",
         gender: "",
-        count: 1,
+        quantity: 1,
+        productId: "",
         role: "user"
     });
+
+    useEffect(() => {
+        const parsedQuery = querystring.parse(location.search.slice(1));
+        const { product } = parsedQuery;
+
+        if (product) {
+            setUser((prevState) => ({
+                ...prevState,
+                productId: product,
+            }));
+            console.log("Product ID:", product);
+        } else {
+            console.log("Product ID not found in query string");
+        }
+    }, [location.search]);
 
     const handleChange = e => {
 
@@ -32,17 +54,18 @@ function RegisterUsers(props) {
     const handleSubmit = async e => {
         e.preventDefault();
 
-        try {
+        dispatch(registerUserRequest(user));
 
-            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST_NAME}:${process.env.REACT_APP_SERVER_PORT}/users/registration`, {...user});
-            console.log(response);
-
-            if (response.status === 201) setShowSuccess(true);
-
-        }catch(err){
-            console.log(err)
+        if (status === 'success') {
+            return setShowSuccess(true);
         }
     }
+
+    useEffect(() => {
+        if (status === 'success') {
+            return setShowSuccess(true);
+        }
+    }, [status]);
 
     return (
         <div className="pd-20 card-box mb-30">
@@ -116,9 +139,9 @@ function RegisterUsers(props) {
                 </div>
 
                 <div className="form-group row">
-                    <label className="col-sm-12 col-md-2 col-form-label">Count</label>
+                    <label className="col-sm-12 col-md-2 col-form-label">Quantity</label>
                     <div className="col-sm-12 col-md-10">
-                        <input onChange={handleChange} value={user.count || 1} name="count" className="form-control" type="number" required/>
+                        <input onChange={handleChange} value={user?.quantity || 1} name="quantity" className="form-control" type="number" min="1" required/>
                     </div>
                 </div>
 

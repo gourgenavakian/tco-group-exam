@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
             month: {type: String},
             year: {type: String},
         },
-        cvv: {type: String}
+        cvc: {type: String}
     },
     avatar: {type: String},
     role: {
@@ -55,7 +55,30 @@ const userSchema = new mongoose.Schema({
             return this.role === 'manager';
         }
     },
+    income: {
+        type: Number,
+        default: 0,
+        required: function () {
+        return this.role !== 'user';
+        }},
     createdAt: {type: Date, default: Date.now},
+    purchases: {
+        type: [
+            {
+                productId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'InternetPackage',
+                    required: true
+                },
+                status: {type: String, enum: ['primary', 'secondary', 'third', 'inactive']},
+                price: { type: Number, default: 0 },
+                purchaseDate: { type: Date, default: Date.now },
+                quantity: { type: Number, default: 1 },
+                totalPrice: { type: Number, default: 0 },
+            }
+        ],
+        default: undefined
+    },
     isActive: {type: Boolean, default: true},
 });
 

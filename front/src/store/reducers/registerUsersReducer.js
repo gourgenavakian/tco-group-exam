@@ -30,7 +30,11 @@ const registerUsersReducer = (state = initialState, action) => {
                 error: action.payload,
             };
         default:
-            return state;
+            return {
+                ...state,
+                status: 'idle',
+                error: null
+            };
     }
 };
 

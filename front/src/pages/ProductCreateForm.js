@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Wrapper from "../components/Wrapper";
 import axios from "axios";
 import useLocalStorage from "../helpers/useLocalStorage";
+import Select from "react-select";
 
 const ProductCreateForm = () => {
 
@@ -14,7 +15,8 @@ const ProductCreateForm = () => {
         description: '',
         duration: '',
         isActive: true,
-        createdBy: getUserID()
+        createdBy: getUserID(),
+        status: ''
     });
 
     const handleChange = (e) => {
@@ -60,7 +62,7 @@ const ProductCreateForm = () => {
                         <div className="bg-white border-radius-4 box-shadow mb-30">
                             <div className="pd-20">
                                 <form onSubmit={handleSubmit}>
-                                    {/* Название пакета */}
+                                    {/* Package name */}
                                     <div className="form-group">
                                         <label htmlFor="name">Package Name*</label>
                                         <input
@@ -72,6 +74,25 @@ const ProductCreateForm = () => {
                                             value={productInfo.name}
                                             onChange={handleChange}
                                             required
+                                        />
+                                    </div>
+
+                                    {/* Package name */}
+                                    <div className="form-group">
+                                        <label htmlFor="status">Package Status*</label>
+                                        <Select
+                                            options={[
+                                                { value: 'primary', label: 'Primary' },
+                                                { value: 'secondary', label: 'Secondary' },
+                                                { value: 'third', label: 'Third' },
+                                                { value: 'inactive', label: 'Inactive' }
+                                            ]}
+                                            onChange={(option) => {
+                                                setProductInfo((prevInfo) => ({
+                                                    ...prevInfo,
+                                                    status: option.value
+                                                }));
+                                            }}
                                         />
                                     </div>
 

@@ -1,7 +1,13 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import {useSelector} from "react-redux";
 
-function RegistrationSuccess(props) {
+
+
+function RegistrationSuccess() {
+
+    const {status, error} = useSelector(state => state.registerUsers);
+
     return (
         <div className="modal-dialog modal-dialog-centered max-width-400" id="success-modal" tabIndex="1" role="dialog"
              style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",height: '30%', background: "whitesmoke", borderRadius:"5px"}}

@@ -48,12 +48,15 @@ class UserController {
                 card: {
                     number: user.card?.number || null,
                     expirationDate: user.card?.expirationDate || null,
-                    cvv: user.card?.cvv || null,
+                    cvc: user.card?.cvc || null,
                 },
                 managedUsers: user.role === 'manager' ? [] : undefined,
                 avatar: user.avatar || null,
                 role: user.role || 'user',
                 createdBy: null,
+                income: user.role === 'user' ? undefined : 0,
+                purchases: user.role === 'user' ? [] : undefined,
+                totalPrice: 0,
                 createdAt: new Date().toISOString(),
                 isActive: user.isActive || false,
             };
@@ -61,9 +64,9 @@ class UserController {
             let createdUser;
 
             if (user.role !== 'admin') {
-                createdUser = await createReferredUser(newUserData, user.referralsUsername, user.createdBy);
+                createdUser = await createReferredUser(newUserData, user);
             } else {
-                createdUser = await createUser(newUserData);
+                createdUser = await createUser(newUserData, user);
             }
 
             if (!createdUser) {
