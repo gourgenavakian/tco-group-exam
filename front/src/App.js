@@ -12,6 +12,7 @@ import AllUsersList from "./pages/AllUsersList";
 import ContactDirectory from "./pages/ContactDirectory";
 import PriceList from "./pages/PriceList";
 import ProductCreateForm from "./pages/ProductCreateForm";
+import RestorePassword from "./pages/RestorePassword";
 
 function App(props) {
     return (
@@ -25,6 +26,7 @@ function App(props) {
                 <Route path="/admin/login" element={<Login />} />
                 <Route path="/users/registration" element={<RegisterUsers />} />
                 <Route path="/users/get-product" element={<PriceList />} />
+                <Route path="/forgot-password" element={<RestorePassword />} />
 
                 {/* Protected Routes */}
                 <Route path="/home/:username" element={<Dashboard />} />

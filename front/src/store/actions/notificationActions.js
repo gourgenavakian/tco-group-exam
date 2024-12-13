@@ -5,7 +5,7 @@ export const addNotification = (user) => ({
     type: ADD_NOTIFICATION,
     payload: {
         id: Date.now(),
-        message: `New user registration: ${user.name}`,
+        message: `New user registration: ${user.username}`,
         user: {
             id: user._id,
             name: user.fullName,
