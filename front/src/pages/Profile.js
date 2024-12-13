@@ -10,20 +10,28 @@ import {Link} from "react-router-dom";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import {useDispatch, useSelector} from "react-redux";
 import {fetchDataRequest} from "../store/actions/profileDataActions";
+import axios from "axios";
+import useLocalStorage from "../helpers/useLocalStorage";
 
 
-function Profile(props) {
+function Profile() {
 
     const socialIcons = [faFacebook, faTwitter, faInstagram, faLinkedin];
-
+    const [userID, getUserID, setUserID] = useLocalStorage("userID");
     const [showCurrentTab, setShowCurrentTab] = useState('');
+    const [file, setFile] = useState(null);
+    const [preview, setPreview] = useState(null);
+    const [showForm, setShowForm] = useState(false);
+
 
     const dispatch = useDispatch();
     const { data, error } = useSelector((state) => state.data);
 
+    console.log(userID, 'USERID');
+
     useEffect(() => {
         dispatch(fetchDataRequest());
-    }, [dispatch]);
+    }, [dispatch, file]);
 
     const renderTabContent = () => {
         switch (showCurrentTab) {
@@ -33,7 +41,51 @@ function Profile(props) {
             case 'settings': return <SettingTab />;
             default: return <TimeLineTab />;
         }
-    }
+    };
+
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        if (selectedFile) {
+            setFile(selectedFile);
+            setPreview(URL.createObjectURL(selectedFile));
+        }
+    };
+
+    const handleCancel = () => {
+        setFile(null);
+        setPreview(null);
+        setShowForm(false);
+    };
+
+    const handleSubmit = async e => {
+        e.preventDefault();
+
+        if (!file) {
+            return alert('Please select a file to upload');
+        }
+
+        try {
+
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('userId', userID);
+
+            const response = axios.post('http://localhost:8088/upload', formData,
+                {headers: {'Content-Type': 'multipart/form-data'}});
+
+            console.log(response);
+
+            setShowForm(false);
+            setFile(null);
+            setPreview(null);
+
+            // const updatedUser = { ...user, profileImage: response.data.filePath };
+
+        }catch (e) {
+            console.error(e);
+        }
+    };
+
 
     return (
         <Wrapper>
@@ -59,32 +111,31 @@ function Profile(props) {
                             <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-30">
                                 <div className="pd-20 card-box height-100-p">
                                     <div className="profile-photo">
-                                        <Link to="modal" data-toggle="modal" data-target="#modal"
-                                           className="edit-avatar">
-                                            <FontAwesomeIcon icon={faPencil}  />
+                                        <Link to="" data-toggle="modal" data-target="#modal"
+                                              className="edit-avatar">
+                                            <FontAwesomeIcon icon={faPencil}/>
                                         </Link>
-                                        <img src={data?.avatar || '/images/avatar.avif'} alt="" className="avatar-photo"/>
-                                        <div className="modal fade" id="modal" tabIndex="-1" role="dialog"
-                                             aria-labelledby="modalLabel" aria-hidden="true" style={{display: 'none'}}>
-                                            <div className="modal-dialog modal-dialog-centered" role="document">
-                                                <div className="modal-content">
-                                                    <div className="modal-body pd-5">
-                                                        <div className="img-container">
-                                                            <img id="image" src="/images/photo2.jpg"
-                                                                 alt="Picture"
-                                                                 className=""/>
-                                                        </div>
-                                                    </div>
-                                                    <div className="modal-footer">
-                                                        <input type="submit" value="Update"
-                                                               className="btn btn-primary"/>
-                                                        <button type="button" className="btn btn-default"
-                                                                data-dismiss="modal">Close
-                                                        </button>
-                                                    </div>
+
+
+                                        <input type='file' className="edit-avatar" onChange={handleFileChange}/>
+
+                                        <img src={data?.avatar || preview || '/images/avatar.avif'} alt=""
+                                             className="avatar-photo"/>
+                                        <form onSubmit={handleSubmit}
+                                            className={`image-form ${showForm || file ? 'visible' : ''}`}>
+                                            {file && (
+                                                <div>
+                                                    <button type="submit"
+                                                            className="upload-button">Upload Image
+                                                    </button>
+                                                    <button type="button"
+                                                            className="cancel-button"
+                                                            onClick={handleCancel}
+                                                            >Cancel
+                                                    </button>
                                                 </div>
-                                            </div>
-                                        </div>
+                                            )}
+                                        </form>
                                     </div>
                                     <h5 className="text-center h5 mb-0">{data?.fullName}</h5>
                                     <p className="text-center text-muted font-14">Lorem ipsum dolor sit amet</p>

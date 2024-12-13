@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-// Функция для генерации данных с учётом дней
+
 const generateDynamicData = () => {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const today = new Date();
     const currentMonthIndex = today.getMonth();
     const currentYear = today.getFullYear();
 
-    // Функция для получения количества дней в месяце
+
     const getDaysInMonth = (month, year) => new Date(year, month + 1, 0).getDate();
 
-    // Генерация данных с учётом месяцев и дней
+
     const data = [];
     for (let i = 0; i < 12; i++) {
         const monthIndex = (currentMonthIndex + i) % 12;
@@ -21,9 +21,9 @@ const generateDynamicData = () => {
         for (let day = 1; day <= daysInMonth; day++) {
             data.push({
                 day,
-                month: months[monthIndex], // Указание месяца для каждого дня
-                users: Math.floor(Math.random() * 20) + 5, // Случайное количество новых пользователей в день
-                purchases: Math.floor(Math.random() * 1000) + 100, // Случайная сумма покупок на день
+                month: months[monthIndex],
+                users: Math.floor(Math.random() * 20) + 5,
+                purchases: Math.floor(Math.random() * 1000) + 100,
             });
         }
     }
@@ -31,28 +31,28 @@ const generateDynamicData = () => {
 };
 
 const LineChartComponent = () => {
-    const [filter, setFilter] = useState('year'); // Состояние для фильтра
-    const allData = generateDynamicData(); // Генерация всех данных
+    const [filter, setFilter] = useState('year');
+    const allData = generateDynamicData();
 
-    // Фильтрация данных на основе выбранного периода
+
     const filteredData = (() => {
         switch (filter) {
             case '3months':
-                return allData.slice(0, 90); // Последние 90 дней (3 месяца)
+                return allData.slice(0, 90);
             case '6months':
-                return allData.slice(0, 180); // Последние 180 дней (6 месяцев)
+                return allData.slice(0, 180);
             case 'year':
             default:
-                return allData; // Все 12 месяцев с днями
+                return allData;
         }
     })();
 
-    // Проверка, что данные для отображения существуют
+
     if (!filteredData || filteredData.length === 0) {
         return <div>No data available</div>;
     }
 
-    // Уникальные месяцы для отображения на оси X
+
     const uniqueMonths = [...new Set(filteredData.map(data => data.month))];
 
     return (
@@ -69,8 +69,8 @@ const LineChartComponent = () => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis
                         dataKey="month"
-                        ticks={uniqueMonths} // Используем уникальные месяцы
-                        interval="preserveStartEnd" // Показывать только уникальные месяца
+                        ticks={uniqueMonths}
+                        interval="preserveStartEnd"
                     />
                     <YAxis />
                     <Tooltip
@@ -97,7 +97,7 @@ const LineChartComponent = () => {
     );
 };
 
-// Стили кнопок
+
 const buttonStyle = {
     padding: '10px 20px',
 

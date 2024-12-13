@@ -13,6 +13,7 @@ const start = require('./config/connect');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const productsRouter = require('./routes/products');
+const uploadImagesRouter = require('./routes/upload');
 
 
 
@@ -43,7 +44,7 @@ app.use(cors({
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
-// app.use('/upload', uploadRouter);
+app.use('/upload', uploadImagesRouter);
 
 
 // catch 404 and forward to error handler
