@@ -5,12 +5,14 @@ import {Link} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchDataRequest } from "../store/actions/profileDataActions";
 import {fetchAllDataRequest} from "../store/actions/allUsersDataActions";
+import {markAllAsRead} from "../store/actions/notificationActions";
 
-function Header(props) {
+function Header() {
 
     const dispatch = useDispatch();
     const { data, error } = useSelector((state) => state.data);
     const { allData } = useSelector((state) => state.allData);
+    const { notifications, unreadCount } = useSelector((state) => state.notifications);
 
     const [showDropDownMenu, setShowDropDownMenu] = useState(false);
     const [showNotification, setShowNotification] = useState(false);
@@ -18,8 +20,14 @@ function Header(props) {
     useEffect(() => {
         dispatch(fetchDataRequest());
         dispatch(fetchAllDataRequest());
-    }, [dispatch]);
+    }, [dispatch, notifications]);
 
+    const handleMarkAsRead = () => {
+        setShowNotification(!showNotification);
+        setTimeout(() => {
+            dispatch(markAllAsRead());
+        }, 2000)
+    };
 
     return (
 
@@ -56,25 +64,37 @@ function Header(props) {
                         <Link className="dropdown-toggle no-arrow"
                               to="#"
                               role="button"
-                              data-toggle="dropdown" onClick={() => setShowNotification(!showNotification)}>
+                              data-toggle="dropdown" onClick={handleMarkAsRead}>
 
                             <FontAwesomeIcon className="icon-copy dw dw-notification" icon={faBell}/>
-                            <span className="badge notification-active"></span>
+                            <span className="badge notification-active" style={{width: '15px', height: '15px'}}>({unreadCount}</span>
+
+
                         </Link>
-                        { showNotification && <div className="dropdown-menu dropdown-menu-right" style={{display: 'block', overflowY: 'auto'}}>
+                        {showNotification && <div className="dropdown-menu dropdown-menu-right"
+                                                  style={{display: 'block', overflowY: 'auto'}}>
                             <div className="notification-list mx-h-350 customscroll">
                                 <ul>
-                                    {allData.map(item => (
-                                        <li>
-                                            <Link to="#">
-                                                <img src={item?.avatar || '/images/avatar.avif'} alt=""/>
-                                                <h3>{item.fullName}</h3>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                                    sed...</p>
-                                            </Link>
-                                        </li>
-                                    ))
-                                    }
+                                    {/*{allData.map(item => (*/}
+                                    {/*    <li>*/}
+                                    {/*        <Link to="#">*/}
+                                    {/*            <img src={item?.avatar || '/images/avatar.avif'} alt=""/>*/}
+                                    {/*            <h3>{item.fullName}</h3>*/}
+                                    {/*            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,*/}
+                                    {/*                sed...</p>*/}
+                                    {/*        </Link>*/}
+                                    {/*    </li>*/}
+                                    {/*))*/}
+                                    {/*}*/}
+                                    {notifications.map((notification) => (
+                                    <li key={notification.id} style={{ fontWeight: notification.read ? 'normal' : 'bold' }}>
+                                        <Link to="#">
+                                            <img src={notification.user?.avatar || '/images/avatar.avif'} alt=""/>
+                                            <h3>{notification.user.name}</h3>
+                                            <p>{notification.message}</p>
+                                        </Link>
+                                    </li>
+                                    ))}
                                 </ul>
                             </div>
                         </div>}
@@ -102,7 +122,7 @@ function Header(props) {
                         </div>}
                     </div>
                 </div>
-                
+
             </div>
         </div>
     );

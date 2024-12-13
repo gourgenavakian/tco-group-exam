@@ -3,6 +3,7 @@ import dataSaga from "./profileDataSaga";
 import {watchRegisterUser} from "./registerUsersSaga";
 import allDataSaga from "./allUsersDataSaga";
 import productsDataSaga from "./productsDataSaga";
+import {watchNotifications} from "./notificationSaga";
 
 export default function* rootSaga() {
     yield all([
@@ -10,5 +11,6 @@ export default function* rootSaga() {
         watchRegisterUser(),
         allDataSaga(),
         productsDataSaga(),
+        watchNotifications(),
     ]);
 }

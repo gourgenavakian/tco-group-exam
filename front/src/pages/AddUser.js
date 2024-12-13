@@ -14,7 +14,7 @@ function PageAddUser() {
 
     const dispatch = useDispatch();
     const [, getUserID] = useLocalStorage("userID");
-    const [dynamicHeader, setDynamicHeader] = useState('Manager');
+    const [dynamicHeader, setDynamicHeader] = useState('User');
 
     const [info, setInfo] = useState({
         email: "",
@@ -61,7 +61,7 @@ function PageAddUser() {
                             <div className="row">
                                 <div className="col-md-6 col-sm-12">
                                     <div className="title">
-                                        <h4>Add Manager</h4>
+                                        <h4>Add User</h4>
                                     </div>
                                     <nav aria-label="breadcrumb" role="navigation">
                                         <ol className="breadcrumb">
@@ -69,7 +69,7 @@ function PageAddUser() {
                                                 <Link to="/">Home</Link>
                                             </li>
                                             <li className="breadcrumb-item active" aria-current="page">
-                                                Add Manager
+                                                Add User
                                             </li>
                                         </ol>
                                     </nav>
@@ -135,22 +135,25 @@ function PageAddUser() {
                                     </div>}
 
                                     {/* Password */}
-                                    <div className="form-group">
-                                        <label htmlFor="password">
-                                            <FontAwesomeIcon icon={faLock} className="mr-2"/>
-                                            Password*
-                                        </label>
-                                        <input
-                                            type="password"
-                                            name="password"
-                                            className="form-control"
-                                            id="password"
-                                            placeholder="Enter Password"
-                                            value={info.password}
-                                            onChange={onChange}
-                                            required
-                                        />
-                                    </div>
+                                    {
+                                        info.role === 'manager' &&
+                                        <div className="form-group">
+                                            <label htmlFor="password">
+                                                <FontAwesomeIcon icon={faLock} className="mr-2"/>
+                                                Password*
+                                            </label>
+                                            <input
+                                                type="password"
+                                                name="password"
+                                                className="form-control"
+                                                id="password"
+                                                placeholder="Enter Password"
+                                                value={info.password}
+                                                onChange={onChange}
+                                                required
+                                            />
+                                        </div>
+                                    }
 
 
                                     {/* Full name */}

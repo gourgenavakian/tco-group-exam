@@ -14,7 +14,6 @@ class ProductsController {
         }
     };
 
-
     static createProduct = async (req, res) => {
         try {
 

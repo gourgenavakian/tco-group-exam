@@ -16,6 +16,7 @@ const internetPackageSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
+    status: {type: String, enum: ['primary', 'secondary', 'third', 'inactive']},
     price: {
         type: Number,
         required: true,

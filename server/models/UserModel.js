@@ -1,26 +1,47 @@
 const {User} = require('../config/adminDB');
 const {Types} = require('mongoose');
+const {attachProduct} = require('./ProductModel');
 
 class UserModel {
 
-    static createUser = async (user) => {
-        if (typeof user === 'object') {
-            try{
-                const newUser = new User(user);
+    static createUser = async (newUserData, user) => {
+        if (typeof newUserData === 'object') {
+            try {
+                let newUserSetProduct = { ...newUserData };
+
+                if (user && user.role === 'user') {
+                    const productInfo = await attachProduct(user);
+
+                    if (productInfo) {
+
+                        if (!newUserSetProduct.purchases) {
+                            newUserSetProduct.purchases = [];
+                        }
+                        newUserSetProduct.purchases.push(productInfo);
+                    } else {
+                        console.log('No product information found to attach.');
+                        return null;
+                    }
+                }
+
+                const newUser = new User(newUserSetProduct);
+
                 await newUser.save();
 
-                console.log('New User saved on DB: ', newUser);
+                console.log('New User saved in DB: ', newUser);
                 return newUser;
 
-            }catch(err){
+            } catch (err) {
                 console.log('Error saving User: ', err);
             }
         }
     };
 
-    static createReferredUser = async (user, referralsUsername, creatorID) => {
+    static createReferredUser = async (newUserData, user) => {
         try {
             let referrer = null;
+            let referralsUsername = user.referralsUsername;
+            let creatorID = user.createdBy;
 
             if (referralsUsername) {
                 referrer = await User.findOne({ username: referralsUsername });
@@ -37,9 +58,11 @@ class UserModel {
                 return null;
             }
 
-            user.createdBy = new Types.ObjectId(referrer._id);
+            newUserData.createdBy = new Types.ObjectId(referrer._id);
 
-            const newUser = await this.createUser(user);
+
+
+            const newUser = await this.createUser(newUserData, user);
 
             if (referrer.role !== 'admin') {
                 referrer.managedUsers.push(newUser._id);

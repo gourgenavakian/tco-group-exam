@@ -6,7 +6,7 @@ const initialState = {
     loading: false,
 };
 
-const productsDataReducer = (state = initialState, action) => {
+export const productsDataReducer = (state = initialState, action) => {
     switch (action.type) {
         case FETCH_PRODUCTS_DATA_REQUEST:
             return { ...state, loading: true, error: null };
@@ -18,9 +18,3 @@ const productsDataReducer = (state = initialState, action) => {
             return state;
     }
 };
-
-export default productsDataReducer;
-
-
-
-
