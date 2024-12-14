@@ -25,93 +25,94 @@ class UserController {
 
         try {
 
-            const { error, value } = userValidationSchema.validate(user, { abortEarly: false });
+            // const { error, value } = userValidationSchema.validate(user, { abortEarly: false });
 
-            // if ((!user.email || !user.password || !user.username || !user.fullName || !user.gender) && user.role !== 'user') {
-            //     return res.status(400).json({ message: 'Required fields are missing' });
-            // }
-
-            if (error) {
-                console.log(error.message)
-                return res.status(400).json({
-                    message: 'Validation errors',
-                    errors: error.details.map((detail) => detail.message),
-                });
+            if ((!user.email || !user.password || !user.username || !user.fullName || !user.gender) && user.role !== 'user') {
+                return res.status(400).json({ message: 'Required fields are missing' });
             }
 
+            // if (error) {
+            //     console.log(error.message)
+            //     return res.status(400).json({
+            //         message: 'Validation errors',
+            //         errors: error.details.map((detail) => detail.message),
+            //     });
+            // }
 
-            const hashedPassword = value.password ? await bcrypt.hash(value.password, 10) : null;
 
-            // const newUserData = {
-            //     email: user.email,
-            //     username: user.username,
-            //     fullName: user.fullName,
-            //     gender: user.gender,
-            //     password: hashedPassword,
-            //     passportID: user.passportID || null,
-            //     city: user.city || null,
-            //     country: user.country || null,
-            //     card: {
-            //         number: user.card?.number || null,
-            //         expirationDate: user.card?.expirationDate || null,
-            //         cvc: user.card?.cvc || null,
-            //     },
-            //     managedUsers: user.role === 'manager' ? [] : undefined,
-            //     avatar: user.avatar || null,
-            //     role: user.role || 'user',
-            //     createdBy: null,
-            //     income: user.role === 'user' ? undefined : 0,
-            //     purchases: user.role === 'user' ? [] : undefined,
-            //     totalPrice: 0,
-            //     createdAt: new Date().toISOString(),
-            //     isActive: user.isActive || false,
-            //     goals: user.goals || undefined,
-            //     salary: user.salary || undefined,
-            // };
-
+            // const hashedPassword = value.password ? await bcrypt.hash(value.password, 10) : null;
+            const hashedPassword = user.password ? await bcrypt.hash(user.password, 10) : null;
 
             const newUserData = {
-                ...value,
+                email: user.email,
+                username: user.username,
+                fullName: user.fullName,
+                gender: user.gender,
                 password: hashedPassword,
-                createdAt: new Date().toISOString(),
+                passportID: user.passportID || null,
+                city: user.city || null,
+                country: user.country || null,
+                card: {
+                    number: user.card?.number || null,
+                    expirationDate: user.card?.expirationDate || null,
+                    cvc: user.card?.cvc || null,
+                },
+                managedUsers: user.role === 'manager' ? [] : undefined,
+                avatar: user.avatar || null,
+                role: user.role || 'user',
+                createdBy: null,
+                income: user.role === 'user' ? undefined : 0,
+                purchases: user.role === 'user' ? [] : undefined,
                 totalPrice: 0,
-                managedUsers: value.role === 'manager' ? [] : undefined,
-                income: value.role === 'user' ? undefined : 0,
-                purchases: value.role === 'user' ? [] : undefined,
+                createdAt: new Date().toISOString(),
+                isActive: user.isActive || false,
+                goals: user.goals || undefined,
+                salary: user.salary || undefined,
             };
 
-            // let createdUser;
 
-            // if (user.role !== 'admin') {
-            //     createdUser = await createReferredUser(newUserData, user);
-            // } else {
-            //     createdUser = await createUser(newUserData, user);
-            // }
-            //
-            // if (!createdUser) {
-            //     return res.status(500).json({ message: 'Error during user creation' });
-            // }
-            //
-            // res.status(201).json({
-            //     message: 'Registration successful',
-            //     user: createdUser,
-            // });
-            // console.log('Registration successful');
+            // const newUserData = {
+            //     ...value,
+            //     password: hashedPassword,
+            //     createdAt: new Date().toISOString(),
+            //     totalPrice: 0,
+            //     managedUsers: value.role === 'manager' ? [] : undefined,
+            //     income: value.role === 'user' ? undefined : 0,
+            //     purchases: value.role === 'user' ? [] : undefined,
+            // };
 
-            const createdUser = value.role !== 'admin'
-                ? await createReferredUser(newUserData, value)
-                : await createUser(newUserData, value);
+            let createdUser;
+
+            if (user.role !== 'admin') {
+                createdUser = await createReferredUser(newUserData, user);
+            } else {
+                createdUser = await createUser(newUserData, user);
+            }
 
             if (!createdUser) {
                 return res.status(500).json({ message: 'Error during user creation' });
             }
-
 
             res.status(201).json({
                 message: 'Registration successful',
                 user: createdUser,
             });
             console.log('Registration successful');
+
+            // const createdUser = value.role !== 'admin'
+            //     ? await createReferredUser(newUserData, value)
+            //     : await createUser(newUserData, value);
+            //
+            // if (!createdUser) {
+            //     return res.status(500).json({ message: 'Error during user creation' });
+            // }
+            //
+            //
+            // res.status(201).json({
+            //     message: 'Registration successful',
+            //     user: createdUser,
+            // });
+            // console.log('Registration successful');
 
         } catch (err) {
             console.error('Error during registration:', err);

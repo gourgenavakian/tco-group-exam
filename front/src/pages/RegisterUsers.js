@@ -2,13 +2,14 @@ import React, {useEffect, useState} from 'react';
 import RegistrationSuccess from "../components/RegistrationSuccess";
 import Select from "react-select";
 import querystring from "querystring";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {registerUserRequest} from "../store/actions/registerUsersActions";
 import {useDispatch, useSelector} from "react-redux";
 
 function RegisterUsers() {
 
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const {status, error} = useSelector(state => state.registerUsers);
     console.log(status);
@@ -60,13 +61,9 @@ function RegisterUsers() {
         if (status === 'success') {
             return setShowSuccess(true);
         }
+        navigate('/login');
     }
 
-    useEffect(() => {
-        if (status === 'success') {
-            return setShowSuccess(true);
-        }
-    }, [status]);
 
     return (
         <div className="pd-20 card-box mb-30">

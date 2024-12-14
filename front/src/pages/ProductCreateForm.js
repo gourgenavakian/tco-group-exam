@@ -38,7 +38,19 @@ const ProductCreateForm = () => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:8088/products', productInfo);
-            console.log(response)
+            console.log(response);
+            setProductInfo({
+                name: '',
+                speed: '',
+                dataLimit: '',
+                price: '',
+                description: '',
+                duration: '',
+                isActive: true,
+                createdBy: getUserID(),
+                status: ''
+            })
+
         }catch (e) {
             console.error(e);
         }
