@@ -67,6 +67,7 @@ function Registration(props) {
     const handlePrevious = (e) => {
         e.preventDefault();
         if (step > 1) setStep(step - 1);
+        console.log(info)
     }
 
     const handleSubmit = async (e) => {
@@ -83,9 +84,9 @@ function Registration(props) {
     const renderSteps = () => {
 
         const cardOptions = [
-            {value: '1', label: 'Option 1'},
-            {value: '2', label: 'Option 2'},
-            {value: '3', label: 'Option 3'}
+            {value: 'visa', label: 'Visa'},
+            {value: 'masterCard', label: 'MasterCard'},
+            {value: 'amex', label: 'Amex'}
         ];
 
         const months = [

@@ -28,7 +28,7 @@ function Header() {
     }, [dispatch, notifications]);
 
     useEffect(() => {
-        if (notifications.length > 0) {
+        if (notifications.length > 1) {
 
             const lastNotification = notifications
                 .filter((notification) => !notification.isToastShown)

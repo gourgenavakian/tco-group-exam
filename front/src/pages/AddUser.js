@@ -34,11 +34,25 @@ function PageAddUser() {
         productId: '',
         quantity: 1,
         createdAt: new Date().toISOString(),
-        isActive: true
+        isActive: true,
+        goals: {
+            users: 0,
+            income: 0,
+        },
+        salary: 0
     });
 
     const onChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
+        if (name === "users" || name === "income") {
+            setInfo((prev) => ({
+                ...prev,
+                goals: {
+                    ...prev.goals,
+                    [name]: value,
+                }
+            }))
+        }
         setInfo((prev) => ({
             ...prev,
             [name]: value,
@@ -276,6 +290,60 @@ function PageAddUser() {
                                         </>
 
                                     )}
+
+                                    {
+                                        info.role === 'manager' && (
+                                            <>
+                                                <div className="form-group">
+                                                    <label htmlFor="users">
+                                                        Users
+                                                    </label>
+                                                    <input
+                                                        type="number"
+                                                        name="users"
+                                                        className="form-control"
+                                                        id="users"
+                                                        value={info.goals.users}
+                                                        onChange={onChange}
+                                                        required
+                                                        min="1"
+                                                    />
+                                                </div>
+
+                                                <div className="form-group">
+                                                    <label htmlFor="income">
+                                                        Income
+                                                    </label>
+                                                    <input
+                                                        type="number"
+                                                        name="income"
+                                                        className="form-control"
+                                                        id="income"
+                                                        value={info.goals.income}
+                                                        onChange={onChange}
+                                                        required
+                                                        min="1"
+                                                    />
+                                                </div>
+
+                                                <div className="form-group">
+                                                    <label htmlFor="salary">
+                                                        Salary
+                                                    </label>
+                                                    <input
+                                                        type="number"
+                                                        name="salary"
+                                                        className="form-control"
+                                                        id="income"
+                                                        value={info.salary}
+                                                        onChange={onChange}
+                                                        required
+                                                        min="1"
+                                                    />
+                                                </div>
+                                            </>
+                                        )
+                                    }
 
 
                                     {/* Country */}
