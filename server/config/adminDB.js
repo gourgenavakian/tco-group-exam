@@ -45,6 +45,16 @@ const userSchema = new mongoose.Schema({
             return this.role !== 'admin';
         }
     },
+    goals: {
+        type: {
+            users: { type: Number, default: 0 },
+            income: { type: Number, default: 0 }
+        },
+        default: undefined,
+        required: function () {
+            return this.role === 'manager';
+        }
+    },
     managedUsers: {
         type: [{
             type: mongoose.Schema.Types.ObjectId,
@@ -61,6 +71,11 @@ const userSchema = new mongoose.Schema({
         required: function () {
         return this.role !== 'user';
         }},
+    salary: {
+        type: Number,
+        required: function () {
+        return this.role === 'manager';},
+        default: undefined},
     createdAt: {type: Date, default: Date.now},
     purchases: {
         type: [
