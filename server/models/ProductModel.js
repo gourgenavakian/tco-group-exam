@@ -20,6 +20,7 @@ class ProductModel {
             price: product.price,
             quantity: user.quantity,
             totalPrice: product.price * user.quantity,
+            status: product.status,
         };
 
         console.log('Purchase details:', purchase);

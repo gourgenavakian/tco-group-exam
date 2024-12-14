@@ -8,6 +8,7 @@ import {fetchAllDataRequest} from "../store/actions/allUsersDataActions";
 import {markAllAsRead} from "../store/actions/notificationActions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Fuse from "fuse.js";
 
 function Header() {
 
@@ -18,6 +19,8 @@ function Header() {
 
     const [showDropDownMenu, setShowDropDownMenu] = useState(false);
     const [showNotification, setShowNotification] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+
 
     useEffect(() => {
         dispatch(fetchDataRequest());
@@ -52,6 +55,19 @@ function Header() {
         }, 2000)
     };
 
+    const fuse = new Fuse(allData, {
+        keys: ['fullName', 'username', 'email'],
+        threshold: 0.3,
+    });
+
+    const filteredUsers = searchTerm
+        ? fuse.search(searchTerm).map(result => result.item)
+        : null
+
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
     return (
 
         <div className="header">
@@ -63,12 +79,45 @@ function Header() {
                     <form>
                         <div className="form-group mb-0">
                             <FontAwesomeIcon className='dw dw-search2 search-icon' icon={faSearch}/>
-                            <input type="text" className="form-control search-input" placeholder="Search Here"/>
+                            <input type="text"
+                                   className="form-control search-input"
+                                   placeholder="Search Here"
+                                   value={searchTerm}
+                                   onChange={handleSearchChange}/>
                             <div className="dropdown">
                                 <Link className="dropdown-toggle no-arrow" to="#" role="button"
-                                   data-toggle="dropdown">
+                                      data-toggle="dropdown">
                                     <FontAwesomeIcon className='ion-arrow-down-c' icon={faArrowAltCircleDown}/>
                                 </Link>
+
+                                {searchTerm &&
+                                    <div className="dropdown-menu dropdown-menu-right show"
+                                         style={{
+                                             position: 'absolute',
+                                             willChange: 'transform',
+                                             top: '0px',
+                                             left: '0px',
+                                             transform: 'translate3d(0px, 45px, 0px)'
+                                         }}>
+                                        <div className="notification-list mx-h-350 customscroll">
+                                            <ul>
+                                                {filteredUsers.map((user) => (
+                                                    <li key={user._id}>
+                                                        <Link to="#">
+                                                            <img src={user?.avatar || '/images/avatar.avif'}
+                                                                alt=""/>
+                                                            <h3>{user.fullName}</h3>
+                                                            <p>{user.email}</p>
+                                                        </Link>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        <div className="text-right">
+                                        </div>
+                                    </div>
+                                }
+
                             </div>
                         </div>
                     </form>
@@ -91,9 +140,9 @@ function Header() {
                               data-toggle="dropdown" onClick={handleMarkAsRead}>
 
                             <FontAwesomeIcon className="icon-copy dw dw-notification" icon={faBell}/>
-                            {unreadCount !==0 &&
+                            {unreadCount !== 0 &&
                                 <span className="badge notification-active"
-                                   style={{width: '15px', height: '15px'}}>{unreadCount}</span>
+                                      style={{width: '15px', height: '15px'}}>{unreadCount}</span>
                             }
 
                         </Link>
@@ -102,9 +151,10 @@ function Header() {
                             <div className="notification-list mx-h-350 customscroll">
                                 <ul>
                                     {notifications.map((notification) => (
-                                    <li key={notification.id} style={{ fontWeight: notification.read ? 'normal' : 'bold' }}>
-                                        <Link to="#">
-                                            <img src={notification.user?.avatar || '/images/avatar.avif'} alt=""/>
+                                        <li key={notification.id}
+                                            style={{fontWeight: notification.read ? 'normal' : 'bold'}}>
+                                            <Link to="#">
+                                                <img src={notification.user?.avatar || '/images/avatar.avif'} alt=""/>
                                             <h3>{notification.user.name}</h3>
                                             <p>{notification.message}</p>
                                         </Link>

@@ -1,17 +1,62 @@
-import React, {useEffect} from 'react';
-import {Link} from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 import Wrapper from "../components/Wrapper";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchAllDataRequest} from "../store/actions/allUsersDataActions";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllDataRequest } from "../store/actions/allUsersDataActions";
+import useLocalStorage from "../helpers/useLocalStorage";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowAltCircleDown, faSearch, faFilter } from "@fortawesome/free-solid-svg-icons";
+import Fuse from "fuse.js";
 
-function AllUsersList(props) {
+function AllUsersList() {
+
+    const [userID] = useLocalStorage("userID");
+    const [searchTerm, setSearchTerm] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
 
     const dispatch = useDispatch();
-    const {allData, error} = useSelector((state) => state.allData);
+    const { allData, error, loading } = useSelector((state) => state.allData);
+
+    console.log(allData)
 
     useEffect(() => {
         dispatch(fetchAllDataRequest());
     }, [dispatch]);
+
+    const users = allData.filter(user => {
+        return user.role !== 'admin' && user.role !== 'manager' && user.createdBy === userID
+    }).sort((a, b) => {
+        const totalA = a.purchases.reduce((acc, purchase) => acc + purchase.totalPrice, 0);
+        const totalB = b.purchases.reduce((acc, purchase) => acc + purchase.totalPrice, 0);
+        return totalA - totalB;
+    });
+
+    const fuse = new Fuse(users, {
+        keys: ['fullName', 'username', 'email'],
+        threshold: 0.3,
+    });
+
+    const filteredUsers = searchTerm
+        ? fuse.search(searchTerm).map(result => result.item)
+        : users;
+
+    const handleDateFilter = (user) => {
+        const registrationDate = new Date(user.createdAt);
+        const start = startDate ? new Date(startDate) : null;
+        const end = endDate ? new Date(endDate) : null;
+
+        if (start && registrationDate < start) return false;
+        return !(end && registrationDate > end);
+
+
+    };
+
+    const finalFilteredUsers = filteredUsers.filter(handleDateFilter);
+
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
 
     return (
         <Wrapper>
@@ -31,41 +76,54 @@ function AllUsersList(props) {
                                 </ol>
                             </nav>
                         </div>
-                        <div className="col-md-6 col-sm-12 text-right">
-                            <div className="dropdown">
-                                <Link className="btn btn-primary dropdown-toggle" to="#" role="button"
-                                   data-toggle="dropdown">
-                                    January 2018
-                                </Link>
-                                <div className="dropdown-menu dropdown-menu-right">
-                                    <a className="dropdown-item" href="#">Export List</a>
-                                    <a className="dropdown-item" href="#">Policies</a>
-                                    <a className="dropdown-item" href="#">View Assets</a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
                 <div className="pd-20 card-box mb-30">
                     <div className="clearfix mb-20">
-                        <div className="pull-left">
-                            <h4 className="text-blue h4">Users List</h4>
-                            <p>Responsive tables allow tables to be scrolled horizontally with ease. Make any table
-                                responsive
-                                across all viewports by wrapping a <code>.table .table-responsive</code> Or, pick a
-                                maximum
-                                breakpoint with which to have a responsive table up to by
-                                using.</p>
-                        </div>
-                        <div className="pull-right">
-                            <Link to="#responsive-table" className="btn btn-primary btn-sm scroll-click" rel="content-y"
-                                  data-toggle="collapse" role="button"><i className="fa fa-code"></i> Source Code</Link>
+                        <div className="header-left">
+                            <div className="search-toggle-icon dw dw-search2" data-toggle="header_search"></div>
+                            <div className="header-search">
+                                <form>
+                                    <div className="form-group mb-0">
+                                        <FontAwesomeIcon className="dw dw-search2 search-icon" icon={faSearch} />
+                                        <input
+                                            type="text"
+                                            className="form-control search-input"
+                                            placeholder="Search Here"
+                                            value={searchTerm}
+                                            onChange={handleSearchChange}
+                                        />
+                                        <div className="dropdown">
+                                            <Link className="dropdown-toggle no-arrow" to="#" role="button" data-toggle="dropdown">
+                                                <FontAwesomeIcon className="ion-arrow-down-c" icon={faArrowAltCircleDown} />
+                                            </Link>
+                                        </div>
+                                        <div className="dropdown-menu-right">
+                                            <Link to="#" className="btn btn-primary btn-sm scroll-click" rel="content-y" data-toggle="collapse" role="button" style={{ margin: '20px 0 20px 0' }}>
+                                                <FontAwesomeIcon icon={faFilter} /> Filters
+                                            </Link>
+                                            <input
+                                                className="form-control search-input"
+                                                type="date"
+                                                value={startDate}
+                                                onChange={(e) => setStartDate(e.target.value)}
+                                            />
+                                            <span className="text-blue h6">to</span>
+                                            <input
+                                                className="form-control search-input"
+                                                type="date"
+                                                value={endDate}
+                                                onChange={(e) => setEndDate(e.target.value)}
+                                            />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
+
                     <div className="table-responsive">
-
-
                         <table className="table table-striped">
                             <thead>
                             <tr>
@@ -78,7 +136,7 @@ function AllUsersList(props) {
                             </thead>
                             <tbody>
                             {
-                                allData.map((user, index) => (
+                                finalFilteredUsers.map((user, index) => (
                                     <tr key={user._id}>
                                         <th scope="row">{index + 1}</th>
                                         <td>{user.fullName}</td>
@@ -88,63 +146,11 @@ function AllUsersList(props) {
                                     </tr>
                                 ))
                             }
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td><span className="badge badge-primary">Primary</span></td>
-                            </tr>
-                            {/*<tr>*/}
-                            {/*    <th scope="row">2</th>*/}
-                            {/*    <td>Jacob</td>*/}
-                            {/*    <td>Thornton</td>*/}
-                            {/*    <td>@fat</td>*/}
-                            {/*    <td><span className="badge badge-secondary">Secondary</span></td>*/}
-                            {/*</tr>*/}
-                            {/*<tr>*/}
-                            {/*    <th scope="row">3</th>*/}
-                            {/*    <td>Larry</td>*/}
-                            {/*    <td>the Bird</td>*/}
-                            {/*    <td>@twitter</td>*/}
-                            {/*    <td><span className="badge badge-success">Success</span></td>*/}
-                            {/*</tr>*/}
-                            {/*<tr>*/}
-                            {/*    <th scope="row">2</th>*/}
-                            {/*    <td>Jacob</td>*/}
-                            {/*    <td>Thornton</td>*/}
-                            {/*    <td>@fat</td>*/}
-                            {/*    <td><span className="badge badge-secondary">Secondary</span></td>*/}
-                            {/*</tr>*/}
-                            {/*<tr>*/}
-                            {/*    <th scope="row">3</th>*/}
-                            {/*    <td>Larry</td>*/}
-                            {/*    <td>the Bird</td>*/}
-                            {/*    <td>@twitter</td>*/}
-                            {/*    <td><span className="badge badge-success">Success</span></td>*/}
-                            {/*</tr>*/}
                             </tbody>
                         </table>
-
-
-                    </div>
-                    <div className="collapse collapse-box" id="responsive-table">
-                        <div className="code-box">
-                            <div className="clearfix">
-                                <Link to="#" className="btn btn-primary btn-sm code-copy pull-left"
-                                      data-clipboard-target="#responsive-table-code"><i
-                                    className="fa fa-clipboard"></i> Copy Code</Link>
-                                <Link to="#responsive-table" className="btn btn-primary btn-sm pull-right"
-                                      rel="content-y"
-                                      data-toggle="collapse" role="button"><i className="fa fa-eye-slash"></i> Hide
-                                    Code</Link>
-                            </div>
-                        </div>
                     </div>
                 </div>
-
             </div>
-
         </Wrapper>
     );
 }

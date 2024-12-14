@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const InternetPackage = require('../config/productDB');
 const {Types} = require("mongoose");
 
@@ -26,6 +25,7 @@ class ProductsController {
                 duration,
                 isActive,
                 createdBy,
+                status
             } = req.body;
 
             if (!name || !speed || !dataLimit || !price || !duration || !createdBy) {
@@ -42,6 +42,7 @@ class ProductsController {
                 price,
                 description,
                 duration,
+                status,
                 isActive: isActive !== undefined ? isActive : true,
                 createdBy:  new Types.ObjectId(createdBy)
             });
